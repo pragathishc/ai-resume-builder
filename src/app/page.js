@@ -2,33 +2,6 @@ import Link from "next/link";
 import ScrollAnimationClient from "./components/ScrollAnimationClient";
 
 export default function Home() {
-  const templates = [
-    {
-      name: "ATS Professional",
-      color: "from-blue-400 to-blue-600",
-      desc: "Clean single-column layout that passes every major ATS parser including Workday, Greenhouse, and Lever.",
-    },
-    {
-      name: "Modern Tech",
-      color: "from-purple-400 to-purple-600",
-      desc: "Two-column design with a sidebar for skills and contact info. Ideal for software engineers and IT professionals.",
-    },
-    {
-      name: "Executive",
-      color: "from-amber-400 to-amber-600",
-      desc: "Refined layout with strong headings and structured sections for senior managers and directors.",
-    },
-    {
-      name: "Creative",
-      color: "from-pink-400 to-pink-600",
-      desc: "Bold visual layout with color accents for designers, marketers, and media professionals.",
-    },
-    {
-      name: "Europe CV",
-      color: "from-green-400 to-green-600",
-      desc: "Europass-style format with photo support, widely accepted across Europe, the UK, and the Middle East.",
-    },
-  ];
 
   const features = [
     {
@@ -48,8 +21,8 @@ export default function Home() {
     },
     {
       icon: "🎨",
-      title: "5 Industry-Specific Templates",
-      desc: "From ATS-strict formats for corporate roles to creative layouts for design jobs — pick the template that matches your industry and career level.",
+      title: "6 Industry-Specific Templates",
+      desc: "From ATS-strict formats for corporate roles to UAE-compliant CVs for Dubai jobs — pick the template that matches your industry, career level, and target country.",
     },
     {
       icon: "📄",
@@ -67,7 +40,7 @@ export default function Home() {
     {
       step: "1",
       title: "Choose Your Template",
-      desc: "Browse five professionally designed resume templates. Each one is ATS-tested and optimized for different industries. Preview them all before you start — switch anytime without losing your data.",
+      desc: "Browse six professionally designed resume templates. Each one is ATS-tested and optimized for different industries. Preview them all before you start — switch anytime without losing your data.",
     },
     {
       step: "2",
@@ -96,14 +69,14 @@ export default function Home() {
     },
     {
       title: "International Job Seekers",
-      desc: "Applying for jobs in the US, Canada, UK, Europe, UAE, or India? Our Europe CV template follows Europass standards with photo support, while the ATS Professional template matches North American hiring conventions. Pick the format your target country expects.",
+      desc: "Applying for jobs in the US, Canada, UK, Europe, UAE, or India? Our UAE CV template is MOHRE-compliant for Dubai jobs, Europe CV follows Europass standards, and ATS Professional matches North American hiring conventions.",
     },
   ];
 
   const faqs = [
     {
       q: "Is Resume Helper AI really free?",
-      a: "Yes, Resume Helper AI is 100% free with no hidden charges. You can create unlimited resumes, use all five templates, generate AI summaries, get skill suggestions, and download as many PDFs as you need. There is no premium tier, no trial period, and no credit card required.",
+      a: "Yes, Resume Helper AI is 100% free with no hidden charges. You can create unlimited resumes, use all six templates, generate AI summaries, get skill suggestions, and download as many PDFs as you need. There is no premium tier, no trial period, and no credit card required.",
     },
     {
       q: "Do I need to create an account or sign up?",
@@ -111,7 +84,7 @@ export default function Home() {
     },
     {
       q: "Are the resume templates ATS-friendly?",
-      a: "Absolutely. All five templates are designed to pass Applicant Tracking Systems used by major employers including those using Workday, Greenhouse, Lever, and Taleo. They use clean formatting, standard section headings, and readable fonts that ATS parsers handle without errors.",
+      a: "Absolutely. All six templates are designed to pass Applicant Tracking Systems used by major employers including those using Workday, Greenhouse, Lever, and Taleo. They use clean formatting, standard section headings, and readable fonts that ATS parsers handle without errors.",
     },
     {
       q: "How does the AI summary generator work?",
@@ -127,11 +100,274 @@ export default function Home() {
     },
     {
       q: "Which countries and resume formats do you support?",
-      a: "Resume Helper AI supports resume formats used in the United States, Canada, United Kingdom, Europe, the Middle East, and India. The ATS Professional template follows North American standards, while the Europe CV template follows Europass conventions with photo support.",
+      a: "Resume Helper AI supports resume formats used in the United States, Canada, United Kingdom, Europe, the Middle East, and India. We have a dedicated UAE CV template that is MOHRE-compliant with visa status and nationality fields required by Dubai employers.",
     },
     {
       q: "Is my personal data safe?",
       a: "Yes. Your resume data is processed entirely in your browser. We do not store your personal information, work history, or contact details on our servers. When you close the page, your data is gone. We never sell or share user information with third parties.",
+    },
+  ];
+
+  // Template preview components
+  const templatePreviews = [
+    {
+      name: "ATS Professional",
+      href: "/resume-builder?template=ATS+Professional",
+      badge: "Most Popular",
+      badgeColor: "bg-blue-600",
+      desc: "Single column, max ATS score",
+      preview: (
+        <div style={{ fontFamily: "Arial, sans-serif", fontSize: "7px", padding: "10px", background: "#fff", height: "168px", overflow: "hidden" }}>
+          <div style={{ borderBottom: "2px solid #1e3a5f", paddingBottom: "5px", marginBottom: "5px" }}>
+            <div style={{ fontSize: "12px", fontWeight: "700", color: "#111" }}>Alex Morgan</div>
+            <div style={{ fontSize: "8px", color: "#1e3a5f", fontWeight: "600" }}>Senior Software Engineer</div>
+            <div style={{ fontSize: "6px", color: "#555", marginTop: "2px" }}>✉ alex@email.com · 📞 +1 555 123 4567 · 📍 New York, USA</div>
+          </div>
+          <div style={{ marginBottom: "5px" }}>
+            <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", borderBottom: "1px solid #eee", paddingBottom: "2px", marginBottom: "3px" }}>Professional Summary</div>
+            <div style={{ fontSize: "6.5px", color: "#444", lineHeight: "1.4" }}>Experienced software engineer with 8+ years building scalable web applications used by millions of users.</div>
+          </div>
+          <div style={{ marginBottom: "5px" }}>
+            <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", borderBottom: "1px solid #eee", paddingBottom: "2px", marginBottom: "3px" }}>Work Experience</div>
+            <div style={{ fontSize: "7px", fontWeight: "600", color: "#111" }}>Google LLC — Senior Engineer (2020–Present)</div>
+            <div style={{ fontSize: "6.5px", color: "#444", marginLeft: "6px" }}>• Led team of 8 engineers delivering 3 major products</div>
+            <div style={{ fontSize: "6.5px", color: "#444", marginLeft: "6px" }}>• Reduced page load time by 40% via optimization</div>
+          </div>
+          <div style={{ marginBottom: "5px" }}>
+            <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", borderBottom: "1px solid #eee", paddingBottom: "2px", marginBottom: "3px" }}>Skills</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "2px" }}>
+              {["React", "Node.js", "Python", "AWS", "SQL", "TypeScript"].map(s => (
+                <span key={s} style={{ background: "#f0f4ff", border: "1px solid #dde", borderRadius: "2px", padding: "1px 4px", fontSize: "6px" }}>{s}</span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", borderBottom: "1px solid #eee", paddingBottom: "2px", marginBottom: "3px" }}>Education</div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ fontSize: "6.5px", fontWeight: "600", color: "#111" }}>B.S. Computer Science — MIT</div>
+              <div style={{ fontSize: "6px", color: "#888" }}>2016</div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Modern Tech",
+      href: "/resume-builder?template=Modern+Tech",
+      badge: "For Tech",
+      badgeColor: "bg-purple-600",
+      desc: "Sidebar layout, skills-first",
+      preview: (
+        <div style={{ fontFamily: "Arial, sans-serif", fontSize: "7px", background: "#fff", height: "168px", overflow: "hidden", display: "flex" }}>
+          <div style={{ width: "36%", background: "#1e3a5f", color: "#fff", padding: "8px 7px" }}>
+            <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", margin: "0 auto 6px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", border: "2px solid rgba(255,255,255,0.3)" }}>AM</div>
+            <div style={{ fontSize: "7.5px", fontWeight: "700", textAlign: "center", marginBottom: "1px" }}>Alex Morgan</div>
+            <div style={{ fontSize: "6px", textAlign: "center", color: "rgba(255,255,255,0.75)", marginBottom: "7px" }}>Software Engineer</div>
+            <div style={{ fontSize: "6px", fontWeight: "700", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginBottom: "4px", borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: "2px" }}>Contact</div>
+            <div style={{ fontSize: "6px", marginBottom: "2px" }}>✉ alex@email.com</div>
+            <div style={{ fontSize: "6px", marginBottom: "2px" }}>📞 +1 555 123 4567</div>
+            <div style={{ fontSize: "6px", marginBottom: "7px" }}>📍 New York, USA</div>
+            <div style={{ fontSize: "6px", fontWeight: "700", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginBottom: "4px", borderBottom: "1px solid rgba(255,255,255,0.15)", paddingBottom: "2px" }}>Skills</div>
+            {["React", "Node.js", "Python", "AWS", "SQL"].map(s => (
+              <div key={s} style={{ fontSize: "6px", marginBottom: "3px", display: "flex", alignItems: "center", gap: "3px" }}>
+                <div style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#60a5fa", flexShrink: 0 }} />{s}
+              </div>
+            ))}
+          </div>
+          <div style={{ flex: 1, padding: "8px 8px" }}>
+            <div style={{ borderBottom: "2px solid #1e3a5f", paddingBottom: "5px", marginBottom: "5px" }}>
+              <div style={{ fontSize: "11px", fontWeight: "700", color: "#1e3a5f" }}>Alex Morgan</div>
+              <div style={{ fontSize: "7px", color: "#64748b", fontWeight: "600" }}>Senior Software Engineer</div>
+            </div>
+            <div style={{ fontSize: "6.5px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", marginBottom: "3px" }}>Professional Summary</div>
+            <div style={{ fontSize: "6px", color: "#444", lineHeight: "1.4", marginBottom: "5px" }}>Engineer with 8+ years building scalable applications for global teams.</div>
+            <div style={{ fontSize: "6.5px", fontWeight: "700", textTransform: "uppercase", color: "#1e3a5f", borderBottom: "1px solid #e2e8f0", paddingBottom: "2px", marginBottom: "3px" }}>Work Experience</div>
+            <div style={{ fontSize: "6.5px", fontWeight: "600", color: "#1e3a5f" }}>Google — Senior Engineer (2020–Present)</div>
+            <div style={{ fontSize: "6px", color: "#444", marginLeft: "4px" }}>• Led 8-person engineering team</div>
+            <div style={{ fontSize: "6px", color: "#444", marginLeft: "4px" }}>• Reduced load time by 40%</div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Executive",
+      href: "/resume-builder?template=Executive",
+      badge: "C-Suite",
+      badgeColor: "bg-amber-600",
+      desc: "Gold accents, C-suite style",
+      preview: (
+        <div style={{ fontFamily: "Georgia, serif", fontSize: "7px", background: "#fff", height: "168px", overflow: "hidden" }}>
+          <div style={{ height: "3px", background: "linear-gradient(90deg, #92700a, #c9a84c)" }} />
+          <div style={{ padding: "8px 10px 6px", borderBottom: "2px solid #92700a", background: "#fdf8ee" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                <div style={{ fontSize: "13px", fontWeight: "700", color: "#111", letterSpacing: "0.5px" }}>Alexandra Morgan</div>
+                <div style={{ fontSize: "8px", color: "#92700a", fontStyle: "italic", fontWeight: "600" }}>Chief Technology Officer</div>
+                <div style={{ fontSize: "6px", color: "#555", marginTop: "3px" }}>✉ alex@corp.com · 📞 +1 555 123 4567 · 🔗 linkedin.com/in/alex</div>
+              </div>
+            </div>
+          </div>
+          <div style={{ padding: "6px 10px" }}>
+            <div style={{ background: "#fdf8ee", borderLeft: "3px solid #92700a", padding: "4px 7px", marginBottom: "5px" }}>
+              <div style={{ fontSize: "6.5px", fontStyle: "italic", color: "#333", lineHeight: "1.4" }}>Visionary technology leader with 15+ years driving digital transformation across Fortune 500 companies generating $2B+ revenue.</div>
+            </div>
+            <div style={{ display: "flex", gap: "16px" }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#92700a", borderBottom: "1px solid #e8d5a0", paddingBottom: "2px", marginBottom: "3px" }}>Career History</div>
+                <div style={{ fontSize: "7px", fontWeight: "700", color: "#111" }}>Google Inc. — VP Engineering</div>
+                <div style={{ fontSize: "6px", color: "#666" }}>2018 – Present</div>
+                <div style={{ fontSize: "6.5px", color: "#444", marginLeft: "6px" }}>• Managed $50M annual tech budget</div>
+                <div style={{ fontSize: "6.5px", color: "#444", marginLeft: "6px" }}>• Led 200+ person engineering org</div>
+              </div>
+              <div style={{ flex: "0 0 38%" }}>
+                <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#92700a", borderBottom: "1px solid #e8d5a0", paddingBottom: "2px", marginBottom: "3px" }}>Core Skills</div>
+                {["Strategy", "Leadership", "P&L", "M&A", "Cloud"].map(s => (
+                  <div key={s} style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "2px" }}>
+                    <div style={{ width: "3px", height: "3px", background: "#92700a", flexShrink: 0 }} />
+                    <span style={{ fontSize: "6px", color: "#333" }}>{s}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Creative",
+      href: "/resume-builder?template=Creative",
+      badge: "For Designers",
+      badgeColor: "bg-pink-600",
+      desc: "Bold colors, portfolio-ready",
+      preview: (
+        <div style={{ fontFamily: "Arial, sans-serif", fontSize: "7px", background: "#fff", height: "168px", overflow: "hidden", display: "flex" }}>
+          <div style={{ width: "35%", background: "#be185d", color: "#fff", padding: "8px 7px" }}>
+            <div style={{ width: "30px", height: "30px", borderRadius: "50%", background: "rgba(255,255,255,0.2)", margin: "0 auto 5px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", border: "2px solid rgba(255,255,255,0.4)" }}>AM</div>
+            <div style={{ fontSize: "7.5px", fontWeight: "700", textAlign: "center", marginBottom: "1px" }}>Alex Morgan</div>
+            <div style={{ fontSize: "6px", textAlign: "center", color: "rgba(255,255,255,0.8)", marginBottom: "7px", fontStyle: "italic" }}>UX/UI Designer</div>
+            <div style={{ fontSize: "6px", fontWeight: "700", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginBottom: "3px", borderBottom: "1px solid rgba(255,255,255,0.2)", paddingBottom: "2px" }}>Skills</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "2px", marginBottom: "6px" }}>
+              {["Figma", "UX", "Prototyping", "CSS", "React"].map(s => (
+                <span key={s} style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: "8px", padding: "1px 4px", fontSize: "5.5px" }}>{s}</span>
+              ))}
+            </div>
+            <div style={{ fontSize: "6px", fontWeight: "700", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginBottom: "3px", borderBottom: "1px solid rgba(255,255,255,0.2)", paddingBottom: "2px" }}>Education</div>
+            <div style={{ fontSize: "6px" }}>B.Des — NIFT</div>
+            <div style={{ fontSize: "5.5px", color: "rgba(255,255,255,0.7)" }}>2018</div>
+          </div>
+          <div style={{ flex: 1, padding: "8px 8px" }}>
+            <div style={{ height: "2px", background: "linear-gradient(90deg, #be185d, #fbcfe8, transparent)", marginBottom: "6px", borderRadius: "1px" }} />
+            <div style={{ fontSize: "6.5px", fontWeight: "700", textTransform: "uppercase", color: "#be185d", marginBottom: "4px" }}>About Me</div>
+            <div style={{ fontSize: "6px", color: "#444", lineHeight: "1.4", marginBottom: "5px" }}>Creative UX designer with 6 years crafting beautiful digital experiences for global brands.</div>
+            <div style={{ fontSize: "6.5px", fontWeight: "700", textTransform: "uppercase", color: "#be185d", borderBottom: "2px solid #fbcfe8", paddingBottom: "2px", marginBottom: "3px" }}>Experience</div>
+            <div style={{ fontSize: "6.5px", fontWeight: "600", color: "#be185d" }}>Airbnb — Sr. UX Designer (2021–Present)</div>
+            <div style={{ fontSize: "6px", color: "#444", marginLeft: "4px" }}>• Redesigned core booking flow +32% CVR</div>
+            <div style={{ fontSize: "6px", color: "#444", marginLeft: "4px" }}>• Led design system for 50+ components</div>
+            <div style={{ background: "#fdf2f8", borderLeft: "2px solid #be185d", padding: "4px 6px", marginTop: "5px", borderRadius: "0 3px 3px 0" }}>
+              <div style={{ fontSize: "6.5px", fontWeight: "700", color: "#be185d" }}>E-Commerce Redesign</div>
+              <div style={{ fontSize: "6px", color: "#444" }}>Stack: Figma, React, Framer</div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Europe CV",
+      href: "/resume-builder?template=Europe+CV",
+      badge: "EU/UK/UAE",
+      badgeColor: "bg-green-600",
+      desc: "Europass format, photo included",
+      preview: (
+        <div style={{ fontFamily: "Arial, sans-serif", fontSize: "7px", background: "#fff", height: "168px", overflow: "hidden" }}>
+          <div style={{ background: "#15803d", padding: "8px 10px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                <div style={{ fontSize: "12px", fontWeight: "700", color: "#fff" }}>Alex Morgan</div>
+                <div style={{ fontSize: "7.5px", color: "rgba(255,255,255,0.85)", fontWeight: "600" }}>Product Manager</div>
+                <div style={{ fontSize: "6px", color: "rgba(255,255,255,0.8)", marginTop: "3px" }}>✉ alex@email.com · 📞 +44 7700 900123</div>
+                <div style={{ fontSize: "6px", color: "rgba(255,255,255,0.8)" }}>📍 London, UK · 🔗 linkedin.com/in/alex</div>
+              </div>
+              <div style={{ width: "28px", height: "34px", border: "2px solid rgba(255,255,255,0.5)", borderRadius: "2px", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>👤</div>
+            </div>
+          </div>
+          <div style={{ padding: "6px 10px" }}>
+            <div style={{ display: "flex", gap: "14px" }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
+                  <div style={{ width: "3px", height: "12px", background: "#15803d", borderRadius: "1px" }} />
+                  <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#15803d" }}>Experience</div>
+                </div>
+                <div style={{ display: "flex", gap: "5px", marginBottom: "3px" }}>
+                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#15803d", flexShrink: 0, marginTop: "1px" }} />
+                  <div>
+                    <div style={{ fontSize: "6.5px", fontWeight: "700" }}>Amazon — Product Manager</div>
+                    <div style={{ fontSize: "6px", color: "#666" }}>2021 – Present</div>
+                    <div style={{ fontSize: "6px", color: "#444" }}>• Launched 3 products, €2M revenue</div>
+                    <div style={{ fontSize: "6px", color: "#444" }}>• Managed cross-functional team of 15</div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ flex: "0 0 36%" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "3px" }}>
+                  <div style={{ width: "3px", height: "12px", background: "#15803d", borderRadius: "1px" }} />
+                  <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#15803d" }}>Skills</div>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "2px" }}>
+                  {["Strategy", "Analytics", "Agile", "SQL", "Figma"].map(s => (
+                    <span key={s} style={{ background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "2px", padding: "1px 4px", fontSize: "5.5px", color: "#15803d", fontWeight: "600" }}>{s}</span>
+                  ))}
+                </div>
+                <div style={{ marginTop: "5px", fontSize: "6px", color: "#444" }}>🗣 English (C2) · French (B2)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "UAE CV",
+      href: "/resume-builder?template=UAE+CV",
+      badge: "🇦🇪 Dubai",
+      badgeColor: "bg-yellow-600",
+      desc: "MOHRE compliant, Dubai Gold",
+      preview: (
+        <div style={{ fontFamily: "Arial, sans-serif", fontSize: "7px", background: "#fff", height: "168px", overflow: "hidden" }}>
+          <div style={{ height: "3px", background: "linear-gradient(90deg, #b8860b, #d4a84b, #b8860b)" }} />
+          <div style={{ padding: "7px 10px 6px", background: "rgba(184,134,11,0.07)", borderBottom: "2px solid #b8860b" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: "700", color: "#111" }}>Ahmed Al Rashid</div>
+                <div style={{ fontSize: "7.5px", color: "#b8860b", fontWeight: "700" }}>Senior Finance Manager</div>
+                <div style={{ fontSize: "6px", color: "#555", marginTop: "2px" }}>✉ ahmed@email.com · 📞 +971 50 123 4567 · 📍 Dubai, UAE</div>
+                <div style={{ display: "flex", gap: "3px", marginTop: "3px", flexWrap: "wrap" }}>
+                  <span style={{ background: "rgba(184,134,11,0.18)", color: "#b8860b", fontSize: "5.5px", padding: "1px 5px", borderRadius: "2px", fontWeight: "600" }}>🌍 Indian</span>
+                  <span style={{ background: "rgba(184,134,11,0.18)", color: "#b8860b", fontSize: "5.5px", padding: "1px 5px", borderRadius: "2px", fontWeight: "600" }}>📋 Employment Visa</span>
+                  <span style={{ background: "rgba(184,134,11,0.18)", color: "#b8860b", fontSize: "5.5px", padding: "1px 5px", borderRadius: "2px", fontWeight: "600" }}>⏱ 1 Month Notice</span>
+                  <span style={{ background: "rgba(184,134,11,0.18)", color: "#b8860b", fontSize: "5.5px", padding: "1px 5px", borderRadius: "2px", fontWeight: "600" }}>🚗 UAE License</span>
+                </div>
+              </div>
+              <div style={{ width: "26px", height: "32px", border: "2px solid #b8860b", borderRadius: "2px", background: "rgba(184,134,11,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px" }}>👤</div>
+            </div>
+          </div>
+          <div style={{ padding: "5px 10px" }}>
+            <div style={{ fontSize: "7px", fontWeight: "700", textTransform: "uppercase", color: "#b8860b", marginBottom: "3px" }}>Work Experience</div>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: "5px", marginBottom: "4px" }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#b8860b", flexShrink: 0, marginTop: "1px" }} />
+              <div>
+                <div style={{ fontSize: "6.5px", fontWeight: "700" }}>Emirates NBD — Finance Manager (2020–Present)</div>
+                <div style={{ fontSize: "6px", color: "#b8860b", fontStyle: "italic" }}>Largest bank in UAE · AED 200B+ assets</div>
+                <div style={{ fontSize: "6px", color: "#444" }}>• Managed AED 50M investment portfolio</div>
+                <div style={{ fontSize: "6px", color: "#444" }}>• Reduced operational costs by 18%</div>
+              </div>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "2px", marginTop: "3px" }}>
+              {["ACCA", "CFA", "Excel", "SAP", "Risk Mgmt"].map(s => (
+                <span key={s} style={{ background: "rgba(184,134,11,0.08)", border: "1px solid rgba(184,134,11,0.25)", borderRadius: "2px", padding: "1px 4px", fontSize: "5.5px", color: "#333" }}>{s}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ),
     },
   ];
 
@@ -146,18 +382,10 @@ export default function Home() {
             Resume Helper AI
           </Link>
           <nav className="hidden md:flex gap-8 text-gray-700 font-medium">
-            <a href="#templates" className="hover:text-gray-900 transition">
-              Templates
-            </a>
-            <a href="#how" className="hover:text-gray-900 transition">
-              How it works
-            </a>
-            <a href="#features" className="hover:text-gray-900 transition">
-              Features
-            </a>
-            <a href="#faq" className="hover:text-gray-900 transition">
-              FAQ
-            </a>
+            <a href="#templates" className="hover:text-gray-900 transition">Templates</a>
+            <a href="#how" className="hover:text-gray-900 transition">How it works</a>
+            <a href="#features" className="hover:text-gray-900 transition">Features</a>
+            <a href="#faq" className="hover:text-gray-900 transition">FAQ</a>
           </nav>
           <Link href="/resume-builder">
             <button className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition">
@@ -171,7 +399,6 @@ export default function Home() {
       <section className="bg-gradient-to-b from-violet-50 via-white to-white">
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Column */}
             <div className="fade-in-scroll">
               <div className="uppercase text-xs font-semibold text-gray-500 tracking-widest mb-4">
                 Free Online Resume Builder — No Sign Up Required
@@ -180,15 +407,10 @@ export default function Home() {
                 Free AI Resume Builder — No Sign Up, No Paywall
               </h1>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Build a professional, ATS-friendly resume in minutes with
-                AI-powered summaries and smart skill suggestions. Choose from
-                five expert-designed templates, fill in your details, and
-                download a clean PDF — completely free.
+                Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. Choose from six expert-designed templates, fill in your details, and download a clean PDF — completely free.
               </p>
               <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                No account creation. No email required. No credit card. No
-                watermark on your download. Resume Helper AI is the free AI
-                resume builder that actually means free.
+                No account creation. No email required. No credit card. No watermark on your download. Resume Helper AI is the free AI resume builder that actually means free.
               </p>
               <Link href="/resume-builder">
                 <button className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-all hover:shadow-lg">
@@ -196,66 +418,35 @@ export default function Home() {
                 </button>
               </Link>
             </div>
-
-            {/* Right Column - Resume Mockup */}
             <div className="fade-in-scroll md:flex justify-center hidden">
               <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-sm transform hover:shadow-3xl transition-shadow duration-300">
                 <div className="flex">
-                  {/* Left Sidebar */}
                   <div className="w-1/3 bg-gray-900 text-white p-6 flex flex-col">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 mx-auto mb-4 flex-shrink-0" />
-                    <h3 className="text-sm font-bold mb-6 text-center">
-                      Contact
-                    </h3>
-                    <p className="text-xs text-gray-300 mb-3">
-                      alex@email.com
-                    </p>
-                    <p className="text-xs text-gray-300 mb-6">
-                      +1 (555) 123-4567
-                    </p>
+                    <h3 className="text-sm font-bold mb-6 text-center">Contact</h3>
+                    <p className="text-xs text-gray-300 mb-3">alex@email.com</p>
+                    <p className="text-xs text-gray-300 mb-6">+1 (555) 123-4567</p>
                     <h3 className="text-sm font-bold mb-2">Profile</h3>
-                    <p className="text-xs text-gray-300 mb-6 leading-tight">
-                      Product Designer with 5+ years creating user-centered
-                      experiences.
-                    </p>
+                    <p className="text-xs text-gray-300 mb-6 leading-tight">Product Designer with 5+ years creating user-centered experiences.</p>
                     <h3 className="text-sm font-bold mb-2">Languages</h3>
                     <p className="text-xs text-gray-300">English, Spanish</p>
                   </div>
-                  {/* Right Content */}
                   <div className="w-2/3 p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-1">
-                      Alex Morgan
-                    </h2>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Product Designer
-                    </p>
+                    <h2 className="text-xl font-bold text-gray-900 mb-1">Alex Morgan</h2>
+                    <p className="text-sm text-gray-600 mb-4">Product Designer</p>
                     <div className="mb-4">
-                      <h3 className="text-xs font-bold text-gray-900 mb-2">
-                        Experience
-                      </h3>
-                      <p className="text-xs text-gray-700 mb-2">
-                        <strong>Sr. Product Designer</strong>
-                      </p>
+                      <h3 className="text-xs font-bold text-gray-900 mb-2">Experience</h3>
+                      <p className="text-xs text-gray-700 mb-2"><strong>Sr. Product Designer</strong></p>
                       <p className="text-xs text-gray-600">2022 - Present</p>
                     </div>
                     <div className="mb-4">
-                      <h3 className="text-xs font-bold text-gray-900 mb-2">
-                        Education
-                      </h3>
-                      <p className="text-xs text-gray-700">
-                        <strong>B.A. Design</strong>
-                      </p>
-                      <p className="text-xs text-gray-600">
-                        University · 2019
-                      </p>
+                      <h3 className="text-xs font-bold text-gray-900 mb-2">Education</h3>
+                      <p className="text-xs text-gray-700"><strong>B.A. Design</strong></p>
+                      <p className="text-xs text-gray-600">University · 2019</p>
                     </div>
                     <div>
-                      <h3 className="text-xs font-bold text-gray-900 mb-2">
-                        Skills
-                      </h3>
-                      <p className="text-xs text-gray-700">
-                        Figma, UX Research, Prototyping
-                      </p>
+                      <h3 className="text-xs font-bold text-gray-900 mb-2">Skills</h3>
+                      <p className="text-xs text-gray-700">Figma, UX Research, Prototyping</p>
                     </div>
                   </div>
                 </div>
@@ -271,33 +462,18 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div className="fade-in-scroll">
               <div className="text-3xl mb-3">✓</div>
-              <h3 className="font-semibold text-gray-900 mb-1">
-                100% Free, No Hidden Costs
-              </h3>
-              <p className="text-sm text-gray-600">
-                No credit card, no trial period, no premium tier. Build
-                unlimited resumes at zero cost forever.
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-1">100% Free, No Hidden Costs</h3>
+              <p className="text-sm text-gray-600">No credit card, no trial period, no premium tier. Build unlimited resumes at zero cost forever.</p>
             </div>
             <div className="fade-in-scroll">
               <div className="text-3xl mb-3">🔒</div>
-              <h3 className="font-semibold text-gray-900 mb-1">
-                Your Data Stays Private
-              </h3>
-              <p className="text-sm text-gray-600">
-                Resume data is processed in your browser. We never store, sell,
-                or share your personal information.
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-1">Your Data Stays Private</h3>
+              <p className="text-sm text-gray-600">Resume data is processed in your browser. We never store, sell, or share your personal information.</p>
             </div>
             <div className="fade-in-scroll">
               <div className="text-3xl mb-3">⭐</div>
-              <h3 className="font-semibold text-gray-900 mb-1">
-                ATS-Tested Templates
-              </h3>
-              <p className="text-sm text-gray-600">
-                Five professionally designed templates tested against Workday,
-                Greenhouse, Lever, and other major ATS platforms.
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-1">ATS-Tested Templates</h3>
+              <p className="text-sm text-gray-600">Six professionally designed templates tested against Workday, Greenhouse, Lever, and other major ATS platforms.</p>
             </div>
           </div>
         </div>
@@ -317,67 +493,50 @@ export default function Home() {
             What Is a Free AI Resume Builder?
           </h2>
           <div className="fade-in-scroll space-y-5 text-gray-700 text-lg leading-relaxed">
-            <p>
-              A free AI resume builder is an online tool that uses artificial
-              intelligence to help you create a professional resume without
-              paying for subscriptions or premium features. Unlike traditional
-              resume builders that charge for PDF downloads or hide AI features
-              behind a paywall, a genuinely free AI resume builder gives you full
-              access to templates, AI writing assistance, and export options at
-              no cost.
-            </p>
-            <p>
-              Resume Helper AI is built on this principle. Most resume builders
-              advertise as &ldquo;free&rdquo; but require you to sign up with an
-              email, lock your PDF download behind a $20-per-month subscription,
-              or add a watermark to your finished document. We do none of that.
-              You open the page, build your resume, use AI to generate your
-              professional summary and skills, and download a clean PDF — all
-              without creating an account.
-            </p>
-            <p>
-              Our AI analyzes your target job title and current skills to
-              generate recruiter-ready professional summaries and suggest
-              role-specific skills that improve your chances with Applicant
-              Tracking Systems. The result is a resume that reads like it was
-              written by a career coach, formatted in a layout that passes
-              automated screening — and it costs you nothing.
-            </p>
+            <p>A free AI resume builder is an online tool that uses artificial intelligence to help you create a professional resume without paying for subscriptions or premium features. Unlike traditional resume builders that charge for PDF downloads or hide AI features behind a paywall, a genuinely free AI resume builder gives you full access to templates, AI writing assistance, and export options at no cost.</p>
+            <p>Resume Helper AI is built on this principle. Most resume builders advertise as &ldquo;free&rdquo; but require you to sign up with an email, lock your PDF download behind a $20-per-month subscription, or add a watermark to your finished document. We do none of that. You open the page, build your resume, use AI to generate your professional summary and skills, and download a clean PDF — all without creating an account.</p>
+            <p>Our AI analyzes your target job title and current skills to generate recruiter-ready professional summaries and suggest role-specific skills that improve your chances with Applicant Tracking Systems. The result is a resume that reads like it was written by a career coach, formatted in a layout that passes automated screening — and it costs you nothing.</p>
           </div>
         </div>
       </section>
 
-      {/* Templates Showcase */}
+      {/* Templates Showcase — Real Previews */}
       <section id="templates" className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6 fade-in-scroll">
-            5 ATS-Friendly Resume Templates
+            6 Professional Resume Templates
           </h2>
           <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
-            Every template is tested against real Applicant Tracking Systems.
-            Pick the design that matches your industry and career level — switch
-            between them anytime without re-entering your information.
+            Every template is tested against real Applicant Tracking Systems. Pick the design that matches your industry and career level — switch between them anytime without re-entering your information.
           </p>
-          <div className="grid md:grid-cols-5 gap-6">
-            {templates.map((template, idx) => (
-              <Link
-                key={template.name}
-                href={`/resume-builder?template=${encodeURIComponent(template.name)}`}
-              >
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {templatePreviews.map((template, idx) => (
+              <Link key={template.name} href={template.href}>
                 <div
-                  className="fade-in-scroll bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer group"
-                  style={{ transitionDelay: `${idx * 100}ms` }}
+                  className="fade-in-scroll bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                  style={{ transitionDelay: `${idx * 80}ms` }}
                 >
-                  <div
-                    className={`bg-gradient-to-br ${template.color} h-32 flex items-center justify-center text-white text-2xl font-bold`}
-                  >
-                    {template.name.split(" ")[0]}
+                  {/* Real Resume Preview Thumbnail */}
+                  <div className="border-b border-gray-100 overflow-hidden relative">
+                    {template.preview}
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-gray-900 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
+                      <span className="text-white font-semibold text-xs opacity-0 group-hover:opacity-100 transition-all bg-gray-900 px-3 py-1.5 rounded-full">
+                        Use Template →
+                      </span>
+                    </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-center text-gray-900 group-hover:text-gray-700 mb-2">
-                      {template.name}
-                    </h3>
-                    <p className="text-xs text-gray-600 text-center leading-relaxed">
+                  {/* Card footer */}
+                  <div className="p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-xs text-gray-900 group-hover:text-gray-700">
+                        {template.name}
+                      </h3>
+                      <span className={`text-white text-xs px-1.5 py-0.5 rounded-full ${template.badgeColor} whitespace-nowrap`} style={{ fontSize: "9px" }}>
+                        {template.badge}
+                      </span>
+                    </div>
+                    <p className="text-gray-500 leading-relaxed" style={{ fontSize: "10px" }}>
                       {template.desc}
                     </p>
                   </div>
@@ -395,22 +554,13 @@ export default function Home() {
             How to Build a Resume with AI in 3 Steps
           </h2>
           <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
-            Go from blank page to a polished, ATS-optimized resume in under five
-            minutes. No sign up needed — just open the builder and start.
+            Go from blank page to a polished, ATS-optimized resume in under five minutes. No sign up needed — just open the builder and start.
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             {howItWorks.map((item, idx) => (
-              <div
-                key={idx}
-                className="fade-in-scroll bg-gray-50 rounded-lg p-8 border border-gray-200"
-                style={{ transitionDelay: `${idx * 100}ms` }}
-              >
-                <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center text-lg font-bold mb-4">
-                  {item.step}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {item.title}
-                </h3>
+              <div key={idx} className="fade-in-scroll bg-gray-50 rounded-lg p-8 border border-gray-200" style={{ transitionDelay: `${idx * 100}ms` }}>
+                <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center text-lg font-bold mb-4">{item.step}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -432,20 +582,13 @@ export default function Home() {
             Why Job Seekers Choose Resume Helper AI
           </h2>
           <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
-            Other resume builders charge $20 or more per month for features we
-            offer free. Here is what you get without paying or signing up.
+            Other resume builders charge $20 or more per month for features we offer free. Here is what you get without paying or signing up.
           </p>
           <div className="grid md:grid-cols-3 gap-6">
             {features.map((feature, idx) => (
-              <div
-                key={idx}
-                className="fade-in-scroll bg-white border border-gray-200 rounded-lg p-8 hover:border-gray-300 hover:shadow-md transition"
-                style={{ transitionDelay: `${idx * 100}ms` }}
-              >
+              <div key={idx} className="fade-in-scroll bg-white border border-gray-200 rounded-lg p-8 hover:border-gray-300 hover:shadow-md transition" style={{ transitionDelay: `${idx * 100}ms` }}>
                 <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{feature.desc}</p>
               </div>
             ))}
@@ -460,20 +603,12 @@ export default function Home() {
             Who Is This Resume Builder For?
           </h2>
           <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
-            Whether you are writing your first resume or updating one for a
-            senior role, our free AI resume builder adapts to your career stage
-            and target market.
+            Whether you are writing your first resume or updating one for a senior role, our free AI resume builder adapts to your career stage and target market.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             {whoIsThisFor.map((item, idx) => (
-              <div
-                key={idx}
-                className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-8"
-                style={{ transitionDelay: `${idx * 100}ms` }}
-              >
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {item.title}
-                </h3>
+              <div key={idx} className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-8" style={{ transitionDelay: `${idx * 100}ms` }}>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -488,31 +623,9 @@ export default function Home() {
             What Is ATS and Why Does Your Resume Need It?
           </h2>
           <div className="fade-in-scroll space-y-5 text-gray-700 text-lg leading-relaxed">
-            <p>
-              An Applicant Tracking System (ATS) is software that employers use
-              to filter resumes before a human recruiter ever sees them. Most
-              large companies, and many mid-size ones, use platforms like
-              Workday, Greenhouse, Lever, or Taleo to automatically scan and
-              rank incoming applications. If your resume uses complex formatting,
-              tables, images in the wrong places, or non-standard section
-              headings, the ATS may fail to parse your content — and your
-              application gets rejected before anyone reads it.
-            </p>
-            <p>
-              Resume Helper AI solves this by giving you templates that are
-              designed from the ground up to be ATS-compatible. Every template
-              uses standard section headings like &ldquo;Experience,&rdquo;
-              &ldquo;Education,&rdquo; and &ldquo;Skills&rdquo; that ATS parsers
-              expect. The layouts use clean single-column or structured
-              two-column formatting that renders correctly across every major ATS
-              platform. And our AI skill suggestion feature helps you include the
-              exact keywords recruiters and their ATS systems search for.
-            </p>
-            <p>
-              The result: your resume gets through automated screening and onto a
-              recruiter&apos;s desk, where your experience and qualifications can
-              speak for themselves.
-            </p>
+            <p>An Applicant Tracking System (ATS) is software that employers use to filter resumes before a human recruiter ever sees them. Most large companies, and many mid-size ones, use platforms like Workday, Greenhouse, Lever, or Taleo to automatically scan and rank incoming applications. If your resume uses complex formatting, tables, images in the wrong places, or non-standard section headings, the ATS may fail to parse your content — and your application gets rejected before anyone reads it.</p>
+            <p>Resume Helper AI solves this by giving you templates that are designed from the ground up to be ATS-compatible. Every template uses standard section headings like &ldquo;Experience,&rdquo; &ldquo;Education,&rdquo; and &ldquo;Skills&rdquo; that ATS parsers expect. The layouts use clean single-column or structured two-column formatting that renders correctly across every major ATS platform. And our AI skill suggestion feature helps you include the exact keywords recruiters and their ATS systems search for.</p>
+            <p>The result: your resume gets through automated screening and onto a recruiter&apos;s desk, where your experience and qualifications can speak for themselves.</p>
           </div>
         </div>
       </section>
@@ -525,16 +638,10 @@ export default function Home() {
           </h2>
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <details
-                key={idx}
-                className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-6 hover:border-gray-300 cursor-pointer transition group"
-                style={{ transitionDelay: `${idx * 50}ms` }}
-              >
+              <details key={idx} className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-6 hover:border-gray-300 cursor-pointer transition group" style={{ transitionDelay: `${idx * 50}ms` }}>
                 <summary className="font-semibold text-lg text-gray-900 group-hover:text-gray-700 transition flex justify-between items-center">
                   {faq.q}
-                  <span className="text-xl group-open:rotate-45 transition-transform">
-                    +
-                  </span>
+                  <span className="text-xl group-open:rotate-45 transition-transform">+</span>
                 </summary>
                 <p className="text-gray-700 mt-4 leading-relaxed">{faq.a}</p>
               </details>
@@ -546,13 +653,8 @@ export default function Home() {
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-6 py-20 text-center fade-in-scroll">
         <div className="bg-gray-900 rounded-lg p-12 text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Your Next Interview Starts with a Better Resume
-          </h2>
-          <p className="text-xl mb-8 text-gray-300">
-            Join thousands of job seekers using Resume Helper AI to build
-            professional resumes — free, no sign up, no paywall, no watermark.
-          </p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Your Next Interview Starts with a Better Resume</h2>
+          <p className="text-xl mb-8 text-gray-300">Join thousands of job seekers using Resume Helper AI to build professional resumes — free, no sign up, no paywall, no watermark.</p>
           <Link href="/resume-builder">
             <button className="bg-white text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg">
               Create Your Resume Now
