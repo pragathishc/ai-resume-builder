@@ -9,8 +9,8 @@ import ModernPreview from "../components/ModernPreview";
 import ExecutivePreview from "../components/ExecutivePreview";
 import CreativePreview from "../components/CreativePreview";
 import EuropePreview from "../components/EuropePreview";
+import UAEPreview from "../components/UAEPreview";
 
-// Loading Spinner
 function Spinner() {
   return (
     <svg className="animate-spin h-4 w-4 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -20,7 +20,6 @@ function Spinner() {
   );
 }
 
-// Section Header
 function SectionHeader({ title }) {
   return (
     <div className="flex items-center gap-3 mb-4 mt-6 first:mt-0">
@@ -30,7 +29,6 @@ function SectionHeader({ title }) {
   );
 }
 
-// Field wrapper
 function Field({ label, required, error, children }) {
   return (
     <div className="mb-3">
@@ -45,7 +43,6 @@ function Field({ label, required, error, children }) {
   );
 }
 
-// Collapsible Card
 function EntryCard({ title, subtitle, onDelete, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
@@ -57,7 +54,7 @@ function EntryCard({ title, subtitle, onDelete, children, defaultOpen = true }) 
         </div>
         <div className="flex items-center gap-2">
           <button type="button" onClick={(e) => { e.stopPropagation(); onDelete(); }}
-            className="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50" title="Delete">🗑</button>
+            className="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">🗑</button>
           <span className={`text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
         </div>
       </div>
@@ -66,7 +63,6 @@ function EntryCard({ title, subtitle, onDelete, children, defaultOpen = true }) 
   );
 }
 
-// Add Button
 function AddButton({ onClick, label }) {
   return (
     <button type="button" onClick={onClick}
@@ -76,7 +72,6 @@ function AddButton({ onClick, label }) {
   );
 }
 
-// Color Themes
 const COLOR_THEMES = [
   { label: "Navy", value: "#1e3a5f" },
   { label: "Indigo", value: "#4338ca" },
@@ -86,6 +81,28 @@ const COLOR_THEMES = [
   { label: "Amber", value: "#92700a" },
   { label: "Teal", value: "#0f766e" },
   { label: "Purple", value: "#7e22ce" },
+];
+
+const TEMPLATES = ["ATS Professional", "Modern Tech", "Executive", "Creative", "Europe CV", "UAE CV"];
+
+const VISA_OPTIONS = [
+  "Visit Visa – Immediate Joiner",
+  "Employment Visa",
+  "Residence Visa – 1 Month Notice",
+  "Residence Visa – 2 Month Notice",
+  "Residence Visa – 3 Month Notice",
+  "Freelance Visa",
+  "Student Visa",
+  "Outside UAE – Ready to Relocate",
+];
+
+const NOTICE_OPTIONS = [
+  "Immediate Joiner",
+  "1 Week Notice",
+  "2 Weeks Notice",
+  "1 Month Notice",
+  "2 Months Notice",
+  "3 Months Notice",
 ];
 
 function ResumeBuilderContent() {
@@ -103,6 +120,13 @@ function ResumeBuilderContent() {
   const [linkedin, setLinkedin] = useState("");
   const [portfolio, setPortfolio] = useState("");
   const [photo, setPhoto] = useState("");
+
+  // UAE specific
+  const [nationality, setNationality] = useState("");
+  const [visaStatus, setVisaStatus] = useState("");
+  const [noticePeriod, setNoticePeriod] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
 
   // Job & Summary
   const [jobTitle, setJobTitle] = useState("");
@@ -129,31 +153,27 @@ function ResumeBuilderContent() {
   // Experience
   const [experiences, setExperiences] = useState([{ id: 1, company: "", role: "", duration: "", description: "" }]);
 
-  // Validation
   const [errors, setErrors] = useState({});
-
   const resumeRef = useRef();
   const fullScreenPreviewRef = useRef();
+
+  const isUAE = selectedTemplate === "UAE CV";
 
   const inputClass = (hasError) =>
     `w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition ${hasError ? "border-red-400 bg-red-50" : "border-gray-200 bg-white"}`;
 
-  // Education helpers
   const addEducation = () => setEducations([...educations, { id: Date.now(), degree: "", college: "", year: "" }]);
   const removeEducation = (id) => setEducations(educations.filter((e) => e.id !== id));
   const updateEducation = (id, field, value) => setEducations(educations.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
-  // Project helpers
   const addProject = () => setProjects([...projects, { id: Date.now(), name: "", description: "", tech: "" }]);
   const removeProject = (id) => setProjects(projects.filter((p) => p.id !== id));
   const updateProject = (id, field, value) => setProjects(projects.map((p) => p.id === id ? { ...p, [field]: value } : p));
 
-  // Experience helpers
   const addExperience = () => setExperiences([...experiences, { id: Date.now(), company: "", role: "", duration: "", description: "" }]);
   const removeExperience = (id) => setExperiences(experiences.filter((e) => e.id !== id));
   const updateExperience = (id, field, value) => setExperiences(experiences.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
-  // Build combined strings
   const combinedExperience = experiences.filter((e) => e.company || e.role)
     .map((e) => `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}\n${e.description}`)
     .join("\n\n");
@@ -169,16 +189,12 @@ function ResumeBuilderContent() {
   const previewProps = {
     name, email, phone, city, linkedin, portfolio,
     jobTitle, photo, skills, languages, certifications, summary,
-    degree: primaryEdu.degree,
-    college: primaryEdu.college,
-    year: primaryEdu.year,
+    degree: primaryEdu.degree, college: primaryEdu.college, year: primaryEdu.year,
     extraEducation: extraEdu,
-    projectName: primaryProject.name,
-    projectDescription: primaryProject.description,
-    projectTech: primaryProject.tech,
-    extraProjects,
-    experience: combinedExperience,
-    themeColor,
+    projectName: primaryProject.name, projectDescription: primaryProject.description, projectTech: primaryProject.tech,
+    extraProjects, experience: combinedExperience,
+    nationality, visaStatus, noticePeriod, dateOfBirth, maritalStatus,
+    themeColor: isUAE ? "#b8860b" : themeColor,
   };
 
   const renderPreviewComponent = (templateName) => {
@@ -188,6 +204,7 @@ function ResumeBuilderContent() {
       case "Executive": return <ExecutivePreview {...previewProps} />;
       case "Creative": return <CreativePreview {...previewProps} />;
       case "Europe CV": return <EuropePreview {...previewProps} />;
+      case "UAE CV": return <UAEPreview {...previewProps} />;
       default: return <ATSPreview {...previewProps} />;
     }
   };
@@ -258,7 +275,6 @@ function ResumeBuilderContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Page Header */}
       <div className="bg-white border-b border-gray-200 px-4 md:px-8 py-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-xl font-bold text-gray-900">Resume Builder</h1>
@@ -285,12 +301,12 @@ function ResumeBuilderContent() {
                   className={inputClass(errors.email)} />
               </Field>
               <Field label="Phone Number">
-                <input type="text" placeholder="+1 (555) 123-4567" value={phone}
+                <input type="text" placeholder={isUAE ? "+971 50 123 4567" : "+1 (555) 123-4567"} value={phone}
                   onChange={(e) => setPhone(e.target.value)} className={inputClass(false)} />
               </Field>
             </div>
             <Field label="City / Country">
-              <input type="text" placeholder="e.g. Dubai, UAE" value={city}
+              <input type="text" placeholder={isUAE ? "e.g. Dubai, UAE" : "e.g. New York, USA"} value={city}
                 onChange={(e) => setCity(e.target.value)} className={inputClass(false)} />
             </Field>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -307,6 +323,48 @@ function ResumeBuilderContent() {
               <input type="file" accept="image/*" onChange={handlePhotoChange}
                 className="w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
             </Field>
+
+            {/* UAE SPECIFIC FIELDS — shown when UAE CV selected */}
+            {isUAE && (
+              <>
+                <SectionHeader title="🇦🇪 UAE Details" />
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3">
+                  <p className="text-xs text-amber-700 font-medium mb-3">These fields are required by UAE employers (MOHRE standards)</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Field label="Nationality">
+                      <input type="text" placeholder="e.g. Indian, Pakistani, British" value={nationality}
+                        onChange={(e) => setNationality(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                    <Field label="Date of Birth">
+                      <input type="text" placeholder="e.g. 15 Jan 1990" value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                  </div>
+                  <Field label="Visa Status">
+                    <select value={visaStatus} onChange={(e) => setVisaStatus(e.target.value)} className={inputClass(false)}>
+                      <option value="">Select Visa Status</option>
+                      {VISA_OPTIONS.map((v) => <option key={v} value={v}>{v}</option>)}
+                    </select>
+                  </Field>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Field label="Notice Period">
+                      <select value={noticePeriod} onChange={(e) => setNoticePeriod(e.target.value)} className={inputClass(false)}>
+                        <option value="">Select Notice Period</option>
+                        {NOTICE_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
+                      </select>
+                    </Field>
+                    <Field label="Marital Status (Optional)">
+                      <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} className={inputClass(false)}>
+                        <option value="">Select (Optional)</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                      </select>
+                    </Field>
+                  </div>
+                </div>
+              </>
+            )}
 
             <SectionHeader title="Target Role" />
             <Field label="Target Job Title" required error={errors.jobTitle}>
@@ -383,7 +441,7 @@ function ResumeBuilderContent() {
 
             <SectionHeader title="Additional Information" />
             <Field label="Languages (comma separated)">
-              <textarea placeholder="e.g. English, Arabic, French" value={languages}
+              <textarea placeholder={isUAE ? "e.g. English, Arabic, Hindi, Urdu" : "e.g. English, French, Spanish"} value={languages}
                 onChange={(e) => setLanguages(e.target.value)} rows="2" className={inputClass(false)} />
             </Field>
             <Field label="Certifications (comma separated)">
@@ -419,7 +477,7 @@ function ResumeBuilderContent() {
                 onDelete={() => removeExperience(exp.id)} defaultOpen={idx === 0}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Company Name">
-                    <input type="text" placeholder="e.g. Google" value={exp.company}
+                    <input type="text" placeholder="e.g. Emirates Group" value={exp.company}
                       onChange={(e) => updateExperience(exp.id, "company", e.target.value)} className={inputClass(false)} />
                   </Field>
                   <Field label="Job Title / Role">
@@ -441,7 +499,6 @@ function ResumeBuilderContent() {
             ))}
             <AddButton onClick={addExperience} label="Add Another Experience" />
 
-            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t border-gray-100">
               <button onClick={handleDownloadClick}
                 className="min-h-[48px] bg-green-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
@@ -459,42 +516,41 @@ function ResumeBuilderContent() {
 
             {/* Template Tabs */}
             <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-gray-100 overflow-x-auto">
-              {["ATS Professional", "Modern Tech", "Executive", "Creative", "Europe CV"].map((tmpl) => (
+              {TEMPLATES.map((tmpl) => (
                 <button key={tmpl} onClick={() => setSelectedTemplate(tmpl)}
-                  className={`min-h-[36px] text-xs md:text-sm px-3 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${selectedTemplate === tmpl ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
-                  {tmpl}
+                  className={`min-h-[36px] text-xs px-3 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${
+                    selectedTemplate === tmpl
+                      ? tmpl === "UAE CV" ? "bg-amber-500 text-white" : "bg-indigo-600 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}>
+                  {tmpl === "UAE CV" ? "🇦🇪 UAE CV" : tmpl}
                 </button>
               ))}
             </div>
 
-            {/* Color Theme Picker */}
-            <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
-              <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
-              <div className="flex flex-wrap gap-2">
-                {COLOR_THEMES.map((theme) => (
-                  <button
-                    key={theme.value}
-                    onClick={() => setThemeColor(theme.value)}
-                    title={theme.label}
-                    style={{
-                      width: "22px",
-                      height: "22px",
-                      borderRadius: "50%",
-                      background: theme.value,
-                      cursor: "pointer",
-                      border: themeColor === theme.value ? "3px solid #6366f1" : "2px solid transparent",
-                      outline: themeColor === theme.value ? "2px solid #e0e7ff" : "none",
-                      flexShrink: 0,
-                    }}
-                  />
-                ))}
+            {/* Color Picker — hidden for UAE CV (uses gold always) */}
+            {!isUAE && (
+              <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
+                <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
+                <div className="flex flex-wrap gap-2">
+                  {COLOR_THEMES.map((theme) => (
+                    <button key={theme.value} onClick={() => setThemeColor(theme.value)} title={theme.label}
+                      style={{ width: "22px", height: "22px", borderRadius: "50%", background: theme.value, cursor: "pointer", flexShrink: 0,
+                        border: themeColor === theme.value ? "3px solid #6366f1" : "2px solid transparent",
+                        outline: themeColor === theme.value ? "2px solid #e0e7ff" : "none" }} />
+                  ))}
+                </div>
+                <span className="text-xs text-gray-500 ml-1">{COLOR_THEMES.find((t) => t.value === themeColor)?.label}</span>
               </div>
-              <span className="text-xs text-gray-500 ml-1">
-                {COLOR_THEMES.find((t) => t.value === themeColor)?.label}
-              </span>
-            </div>
+            )}
 
-            {/* Resume Preview */}
+            {/* UAE color note */}
+            {isUAE && (
+              <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
+                <span className="text-xs text-amber-600 font-medium">🇦🇪 UAE CV uses Dubai Gold theme — MOHRE compliant format</span>
+              </div>
+            )}
+
             <div ref={resumeRef} className="overflow-auto flex-1">
               {renderPreviewComponent(selectedTemplate)}
             </div>
@@ -502,7 +558,6 @@ function ResumeBuilderContent() {
         </div>
       </div>
 
-      {/* Full-Screen Preview Modal */}
       {showFullScreenPreview && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] md:max-h-[95vh] flex flex-col">
