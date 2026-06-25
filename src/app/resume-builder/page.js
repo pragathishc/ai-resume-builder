@@ -83,6 +83,12 @@ const COLOR_THEMES = [
   { label: "Purple", value: "#7e22ce" },
 ];
 
+const UAE_THEMES = [
+  { label: "Dubai Gold", value: "#b8860b", emoji: "🥇" },
+  { label: "Corporate Navy", value: "#1e3a5f", emoji: "🔵" },
+  { label: "Executive Black", value: "#1c1c1c", emoji: "⚫" },
+];
+
 const TEMPLATES = ["ATS Professional", "Modern Tech", "Executive", "Creative", "Europe CV", "UAE CV"];
 
 const VISA_OPTIONS = [
@@ -105,12 +111,23 @@ const NOTICE_OPTIONS = [
   "3 Months Notice",
 ];
 
+const DRIVING_LICENSE_OPTIONS = [
+  "UAE Driving License",
+  "GCC Driving License",
+  "International Driving License",
+  "Indian Driving License",
+  "UK Driving License",
+  "US Driving License",
+  "No Driving License",
+];
+
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const initialTemplate = searchParams.get("template") || "ATS Professional";
   const [selectedTemplate, setSelectedTemplate] = useState(initialTemplate);
   const [showFullScreenPreview, setShowFullScreenPreview] = useState(false);
   const [themeColor, setThemeColor] = useState("#1e3a5f");
+  const [uaeThemeColor, setUaeThemeColor] = useState("#b8860b");
 
   // Personal Info
   const [name, setName] = useState("");
@@ -127,6 +144,7 @@ function ResumeBuilderContent() {
   const [noticePeriod, setNoticePeriod] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [maritalStatus, setMaritalStatus] = useState("");
+  const [drivingLicense, setDrivingLicense] = useState("");
 
   // Job & Summary
   const [jobTitle, setJobTitle] = useState("");
@@ -151,7 +169,7 @@ function ResumeBuilderContent() {
   const [projects, setProjects] = useState([{ id: 1, name: "", description: "", tech: "" }]);
 
   // Experience
-  const [experiences, setExperiences] = useState([{ id: 1, company: "", role: "", duration: "", description: "" }]);
+  const [experiences, setExperiences] = useState([{ id: 1, company: "", role: "", duration: "", companyDesc: "", description: "" }]);
 
   const [errors, setErrors] = useState({});
   const resumeRef = useRef();
@@ -170,12 +188,17 @@ function ResumeBuilderContent() {
   const removeProject = (id) => setProjects(projects.filter((p) => p.id !== id));
   const updateProject = (id, field, value) => setProjects(projects.map((p) => p.id === id ? { ...p, [field]: value } : p));
 
-  const addExperience = () => setExperiences([...experiences, { id: Date.now(), company: "", role: "", duration: "", description: "" }]);
+  const addExperience = () => setExperiences([...experiences, { id: Date.now(), company: "", role: "", duration: "", companyDesc: "", description: "" }]);
   const removeExperience = (id) => setExperiences(experiences.filter((e) => e.id !== id));
   const updateExperience = (id, field, value) => setExperiences(experiences.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
+  // Build combined strings
   const combinedExperience = experiences.filter((e) => e.company || e.role)
-    .map((e) => `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}\n${e.description}`)
+    .map((e) => {
+      const header = `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}`;
+      const compDesc = e.companyDesc ? `(${e.companyDesc})` : "";
+      return [header, compDesc, e.description].filter(Boolean).join("\n");
+    })
     .join("\n\n");
 
   const combinedProjects = projects.filter((p) => p.name);
@@ -193,8 +216,8 @@ function ResumeBuilderContent() {
     extraEducation: extraEdu,
     projectName: primaryProject.name, projectDescription: primaryProject.description, projectTech: primaryProject.tech,
     extraProjects, experience: combinedExperience,
-    nationality, visaStatus, noticePeriod, dateOfBirth, maritalStatus,
-    themeColor: isUAE ? "#b8860b" : themeColor,
+    nationality, visaStatus, noticePeriod, dateOfBirth, maritalStatus, drivingLicense,
+    themeColor: isUAE ? uaeThemeColor : themeColor,
   };
 
   const renderPreviewComponent = (templateName) => {
@@ -324,12 +347,14 @@ function ResumeBuilderContent() {
                 className="w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
             </Field>
 
-            {/* UAE SPECIFIC FIELDS — shown when UAE CV selected */}
+            {/* UAE FIELDS */}
             {isUAE && (
               <>
                 <SectionHeader title="🇦🇪 UAE Details" />
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3">
-                  <p className="text-xs text-amber-700 font-medium mb-3">These fields are required by UAE employers (MOHRE standards)</p>
+                  <p className="text-xs text-amber-700 font-medium mb-3">
+                    Required by UAE employers — GulfTalent & MOHRE standards
+                  </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Field label="Nationality">
                       <input type="text" placeholder="e.g. Indian, Pakistani, British" value={nationality}
@@ -347,12 +372,20 @@ function ResumeBuilderContent() {
                     </select>
                   </Field>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Notice Period">
+                    <Field label="Notice Period / Availability">
                       <select value={noticePeriod} onChange={(e) => setNoticePeriod(e.target.value)} className={inputClass(false)}>
                         <option value="">Select Notice Period</option>
                         {NOTICE_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
                       </select>
                     </Field>
+                    <Field label="Driving License">
+                      <select value={drivingLicense} onChange={(e) => setDrivingLicense(e.target.value)} className={inputClass(false)}>
+                        <option value="">Select License Type</option>
+                        {DRIVING_LICENSE_OPTIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+                      </select>
+                    </Field>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Field label="Marital Status (Optional)">
                       <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} className={inputClass(false)}>
                         <option value="">Select (Optional)</option>
@@ -445,7 +478,7 @@ function ResumeBuilderContent() {
                 onChange={(e) => setLanguages(e.target.value)} rows="2" className={inputClass(false)} />
             </Field>
             <Field label="Certifications (comma separated)">
-              <input type="text" placeholder="e.g. AWS Certified, PMP, Google Analytics" value={certifications}
+              <input type="text" placeholder="e.g. PMP, ACCA, AWS Certified, CIPD" value={certifications}
                 onChange={(e) => setCertifications(e.target.value)} className={inputClass(false)} />
             </Field>
 
@@ -477,7 +510,7 @@ function ResumeBuilderContent() {
                 onDelete={() => removeExperience(exp.id)} defaultOpen={idx === 0}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Company Name">
-                    <input type="text" placeholder="e.g. Emirates Group" value={exp.company}
+                    <input type="text" placeholder={isUAE ? "e.g. Emirates Group" : "e.g. Google"} value={exp.company}
                       onChange={(e) => updateExperience(exp.id, "company", e.target.value)} className={inputClass(false)} />
                   </Field>
                   <Field label="Job Title / Role">
@@ -489,8 +522,18 @@ function ResumeBuilderContent() {
                   <input type="text" placeholder="e.g. Jan 2022 – Present" value={exp.duration}
                     onChange={(e) => updateExperience(exp.id, "duration", e.target.value)} className={inputClass(false)} />
                 </Field>
+                {/* Company description — GulfTalent recommends for UAE CVs */}
+                {isUAE && (
+                  <Field label="Company Description (Recommended for UAE)">
+                    <input type="text"
+                      placeholder="e.g. Largest telecom provider in UAE with 5000+ employees"
+                      value={exp.companyDesc}
+                      onChange={(e) => updateExperience(exp.id, "companyDesc", e.target.value)}
+                      className={inputClass(false)} />
+                  </Field>
+                )}
                 <Field label="Responsibilities & Achievements">
-                  <textarea placeholder={"• Led a team of 5 engineers...\n• Reduced load time by 40%...\n• Implemented CI/CD pipeline..."}
+                  <textarea placeholder={"• Led a team of 5 engineers...\n• Reduced costs by AED 500K...\n• Managed GCC-wide operations..."}
                     value={exp.description}
                     onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
                     rows="4" className={`${inputClass(false)} font-mono text-xs`} />
@@ -528,7 +571,7 @@ function ResumeBuilderContent() {
               ))}
             </div>
 
-            {/* Color Picker — hidden for UAE CV (uses gold always) */}
+            {/* Color Picker for non-UAE templates */}
             {!isUAE && (
               <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
@@ -544,10 +587,23 @@ function ResumeBuilderContent() {
               </div>
             )}
 
-            {/* UAE color note */}
+            {/* UAE 3-color picker */}
             {isUAE && (
-              <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
-                <span className="text-xs text-amber-600 font-medium">🇦🇪 UAE CV uses Dubai Gold theme — MOHRE compliant format</span>
+              <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-100">
+                <span className="text-xs text-gray-400 font-medium whitespace-nowrap">UAE Style:</span>
+                <div className="flex gap-2">
+                  {UAE_THEMES.map((theme) => (
+                    <button key={theme.value} onClick={() => setUaeThemeColor(theme.value)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
+                        uaeThemeColor === theme.value
+                          ? "border-amber-400 bg-amber-50 text-amber-800"
+                          : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                      }`}>
+                      <span>{theme.emoji}</span>
+                      <span>{theme.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
