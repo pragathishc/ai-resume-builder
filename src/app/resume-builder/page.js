@@ -45,36 +45,23 @@ function Field({ label, required, error, children }) {
   );
 }
 
-// Collapsible Card for multi-entry sections
+// Collapsible Card
 function EntryCard({ title, subtitle, onDelete, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="border border-gray-200 rounded-xl mb-3 overflow-hidden">
-      <div
-        className="flex items-center justify-between px-4 py-3 bg-gray-50 cursor-pointer hover:bg-gray-100 transition"
-        onClick={() => setOpen(!open)}
-      >
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 cursor-pointer hover:bg-gray-100 transition" onClick={() => setOpen(!open)}>
         <div>
           <p className="text-sm font-semibold text-gray-800">{title || "Untitled"}</p>
           {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onDelete(); }}
-            className="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50"
-            title="Delete"
-          >
-            🗑
-          </button>
+          <button type="button" onClick={(e) => { e.stopPropagation(); onDelete(); }}
+            className="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50" title="Delete">🗑</button>
           <span className={`text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
         </div>
       </div>
-      {open && (
-        <div className="p-4 bg-white border-t border-gray-100">
-          {children}
-        </div>
-      )}
+      {open && <div className="p-4 bg-white border-t border-gray-100">{children}</div>}
     </div>
   );
 }
@@ -82,21 +69,31 @@ function EntryCard({ title, subtitle, onDelete, children, defaultOpen = true }) 
 // Add Button
 function AddButton({ onClick, label }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="w-full border-2 border-dashed border-gray-200 text-gray-500 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl py-3 text-sm font-medium transition flex items-center justify-center gap-2"
-    >
+    <button type="button" onClick={onClick}
+      className="w-full border-2 border-dashed border-gray-200 text-gray-500 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl py-3 text-sm font-medium transition flex items-center justify-center gap-2">
       <span className="text-lg leading-none">+</span> {label}
     </button>
   );
 }
+
+// Color Themes
+const COLOR_THEMES = [
+  { label: "Navy", value: "#1e3a5f" },
+  { label: "Indigo", value: "#4338ca" },
+  { label: "Green", value: "#15803d" },
+  { label: "Rose", value: "#be185d" },
+  { label: "Charcoal", value: "#374151" },
+  { label: "Amber", value: "#92700a" },
+  { label: "Teal", value: "#0f766e" },
+  { label: "Purple", value: "#7e22ce" },
+];
 
 function ResumeBuilderContent() {
   const searchParams = useSearchParams();
   const initialTemplate = searchParams.get("template") || "ATS Professional";
   const [selectedTemplate, setSelectedTemplate] = useState(initialTemplate);
   const [showFullScreenPreview, setShowFullScreenPreview] = useState(false);
+  const [themeColor, setThemeColor] = useState("#1e3a5f");
 
   // Personal Info
   const [name, setName] = useState("");
@@ -113,10 +110,8 @@ function ResumeBuilderContent() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generateError, setGenerateError] = useState("");
 
-  // Education — multiple entries
-  const [educations, setEducations] = useState([
-    { id: 1, degree: "", college: "", year: "", field: "" }
-  ]);
+  // Education
+  const [educations, setEducations] = useState([{ id: 1, degree: "", college: "", year: "" }]);
 
   // Skills
   const [skills, setSkills] = useState("");
@@ -128,15 +123,11 @@ function ResumeBuilderContent() {
   const [languages, setLanguages] = useState("");
   const [certifications, setCertifications] = useState("");
 
-  // Projects — multiple entries
-  const [projects, setProjects] = useState([
-    { id: 1, name: "", description: "", tech: "" }
-  ]);
+  // Projects
+  const [projects, setProjects] = useState([{ id: 1, name: "", description: "", tech: "" }]);
 
-  // Experience — multiple entries
-  const [experiences, setExperiences] = useState([
-    { id: 1, company: "", role: "", duration: "", description: "" }
-  ]);
+  // Experience
+  const [experiences, setExperiences] = useState([{ id: 1, company: "", role: "", duration: "", description: "" }]);
 
   // Validation
   const [errors, setErrors] = useState({});
@@ -145,12 +136,10 @@ function ResumeBuilderContent() {
   const fullScreenPreviewRef = useRef();
 
   const inputClass = (hasError) =>
-    `w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition ${
-      hasError ? "border-red-400 bg-red-50" : "border-gray-200 bg-white"
-    }`;
+    `w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition ${hasError ? "border-red-400 bg-red-50" : "border-gray-200 bg-white"}`;
 
   // Education helpers
-  const addEducation = () => setEducations([...educations, { id: Date.now(), degree: "", college: "", year: "", field: "" }]);
+  const addEducation = () => setEducations([...educations, { id: Date.now(), degree: "", college: "", year: "" }]);
   const removeEducation = (id) => setEducations(educations.filter((e) => e.id !== id));
   const updateEducation = (id, field, value) => setEducations(educations.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
@@ -164,9 +153,8 @@ function ResumeBuilderContent() {
   const removeExperience = (id) => setExperiences(experiences.filter((e) => e.id !== id));
   const updateExperience = (id, field, value) => setExperiences(experiences.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
-  // Build combined strings for preview components
-  const combinedExperience = experiences
-    .filter((e) => e.company || e.role)
+  // Build combined strings
+  const combinedExperience = experiences.filter((e) => e.company || e.role)
     .map((e) => `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}\n${e.description}`)
     .join("\n\n");
 
@@ -178,20 +166,22 @@ function ResumeBuilderContent() {
   const primaryEdu = combinedEducation[0] || { degree: "", college: "", year: "" };
   const extraEdu = combinedEducation.slice(1).map((e) => `${e.degree}${e.college ? `, ${e.college}` : ""}${e.year ? ` (${e.year})` : ""}`).join("\n");
 
+  const previewProps = {
+    name, email, phone, city, linkedin, portfolio,
+    jobTitle, photo, skills, languages, certifications, summary,
+    degree: primaryEdu.degree,
+    college: primaryEdu.college,
+    year: primaryEdu.year,
+    extraEducation: extraEdu,
+    projectName: primaryProject.name,
+    projectDescription: primaryProject.description,
+    projectTech: primaryProject.tech,
+    extraProjects,
+    experience: combinedExperience,
+    themeColor,
+  };
+
   const renderPreviewComponent = (templateName) => {
-    const previewProps = {
-      name, email, phone, city, linkedin, portfolio,
-      jobTitle, photo, skills, languages, certifications, summary,
-      degree: primaryEdu.degree,
-      college: primaryEdu.college,
-      year: primaryEdu.year,
-      extraEducation: extraEdu,
-      projectName: primaryProject.name,
-      projectDescription: primaryProject.description,
-      projectTech: primaryProject.tech,
-      extraProjects,
-      experience: combinedExperience,
-    };
     switch (templateName) {
       case "ATS Professional": return <ATSPreview {...previewProps} />;
       case "Modern Tech": return <ModernPreview {...previewProps} />;
@@ -282,7 +272,6 @@ function ResumeBuilderContent() {
           {/* FORM */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 md:p-7">
 
-            {/* Personal Info */}
             <SectionHeader title="Personal Information" />
             <Field label="Full Name" required error={errors.name}>
               <input type="text" placeholder="e.g. Alex Morgan" value={name}
@@ -319,7 +308,6 @@ function ResumeBuilderContent() {
                 className="w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
             </Field>
 
-            {/* Target Role */}
             <SectionHeader title="Target Role" />
             <Field label="Target Job Title" required error={errors.jobTitle}>
               <input type="text" placeholder="e.g. Senior Software Engineer" value={jobTitle}
@@ -327,7 +315,6 @@ function ResumeBuilderContent() {
                 className={inputClass(errors.jobTitle)} />
             </Field>
 
-            {/* Summary */}
             <SectionHeader title="Professional Summary" />
             <Field label="Summary">
               <textarea placeholder="Write a brief summary or use AI to generate one..." value={summary}
@@ -341,38 +328,28 @@ function ResumeBuilderContent() {
               {generateError && <p className="text-xs text-red-500 mt-1">{generateError}</p>}
             </div>
 
-            {/* Education */}
             <SectionHeader title="Education" />
             {educations.map((edu, idx) => (
-              <EntryCard
-                key={edu.id}
-                title={edu.degree || `Education ${idx + 1}`}
-                subtitle={edu.college}
-                onDelete={() => removeEducation(edu.id)}
-                defaultOpen={idx === 0}
-              >
+              <EntryCard key={edu.id} title={edu.degree || `Education ${idx + 1}`} subtitle={edu.college}
+                onDelete={() => removeEducation(edu.id)} defaultOpen={idx === 0}>
                 <Field label="Degree / Qualification">
                   <input type="text" placeholder="e.g. B.Tech Computer Science" value={edu.degree}
-                    onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-                    className={inputClass(false)} />
+                    onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} className={inputClass(false)} />
                 </Field>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="College / University">
                     <input type="text" placeholder="e.g. MIT" value={edu.college}
-                      onChange={(e) => updateEducation(edu.id, "college", e.target.value)}
-                      className={inputClass(false)} />
+                      onChange={(e) => updateEducation(edu.id, "college", e.target.value)} className={inputClass(false)} />
                   </Field>
                   <Field label="Graduation Year">
                     <input type="text" placeholder="e.g. 2023" value={edu.year}
-                      onChange={(e) => updateEducation(edu.id, "year", e.target.value)}
-                      className={inputClass(false)} />
+                      onChange={(e) => updateEducation(edu.id, "year", e.target.value)} className={inputClass(false)} />
                   </Field>
                 </div>
               </EntryCard>
             ))}
             <AddButton onClick={addEducation} label="Add Another Education" />
 
-            {/* Skills */}
             <SectionHeader title="Skills" />
             <Field label="Skills (comma separated)">
               <textarea placeholder="e.g. React, Node.js, Python, SQL..." value={skills}
@@ -404,7 +381,6 @@ function ResumeBuilderContent() {
               )}
             </div>
 
-            {/* Additional Info */}
             <SectionHeader title="Additional Information" />
             <Field label="Languages (comma separated)">
               <textarea placeholder="e.g. English, Arabic, French" value={languages}
@@ -415,20 +391,13 @@ function ResumeBuilderContent() {
                 onChange={(e) => setCertifications(e.target.value)} className={inputClass(false)} />
             </Field>
 
-            {/* Projects */}
             <SectionHeader title="Projects" />
             {projects.map((proj, idx) => (
-              <EntryCard
-                key={proj.id}
-                title={proj.name || `Project ${idx + 1}`}
-                subtitle={proj.tech}
-                onDelete={() => removeProject(proj.id)}
-                defaultOpen={idx === 0}
-              >
+              <EntryCard key={proj.id} title={proj.name || `Project ${idx + 1}`} subtitle={proj.tech}
+                onDelete={() => removeProject(proj.id)} defaultOpen={idx === 0}>
                 <Field label="Project Name">
                   <input type="text" placeholder="e.g. E-Commerce Platform" value={proj.name}
-                    onChange={(e) => updateProject(proj.id, "name", e.target.value)}
-                    className={inputClass(false)} />
+                    onChange={(e) => updateProject(proj.id, "name", e.target.value)} className={inputClass(false)} />
                 </Field>
                 <Field label="Description">
                   <textarea placeholder="Describe what you built and your role..." value={proj.description}
@@ -437,43 +406,33 @@ function ResumeBuilderContent() {
                 </Field>
                 <Field label="Technologies Used">
                   <input type="text" placeholder="e.g. React, Node.js, MongoDB" value={proj.tech}
-                    onChange={(e) => updateProject(proj.id, "tech", e.target.value)}
-                    className={inputClass(false)} />
+                    onChange={(e) => updateProject(proj.id, "tech", e.target.value)} className={inputClass(false)} />
                 </Field>
               </EntryCard>
             ))}
             <AddButton onClick={addProject} label="Add Another Project" />
 
-            {/* Work Experience */}
             <SectionHeader title="Work Experience" />
             {experiences.map((exp, idx) => (
-              <EntryCard
-                key={exp.id}
-                title={exp.role || `Experience ${idx + 1}`}
+              <EntryCard key={exp.id} title={exp.role || `Experience ${idx + 1}`}
                 subtitle={exp.company ? `${exp.company}${exp.duration ? ` · ${exp.duration}` : ""}` : ""}
-                onDelete={() => removeExperience(exp.id)}
-                defaultOpen={idx === 0}
-              >
+                onDelete={() => removeExperience(exp.id)} defaultOpen={idx === 0}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="Company Name">
                     <input type="text" placeholder="e.g. Google" value={exp.company}
-                      onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
-                      className={inputClass(false)} />
+                      onChange={(e) => updateExperience(exp.id, "company", e.target.value)} className={inputClass(false)} />
                   </Field>
                   <Field label="Job Title / Role">
                     <input type="text" placeholder="e.g. Software Engineer" value={exp.role}
-                      onChange={(e) => updateExperience(exp.id, "role", e.target.value)}
-                      className={inputClass(false)} />
+                      onChange={(e) => updateExperience(exp.id, "role", e.target.value)} className={inputClass(false)} />
                   </Field>
                 </div>
                 <Field label="Duration">
                   <input type="text" placeholder="e.g. Jan 2022 – Present" value={exp.duration}
-                    onChange={(e) => updateExperience(exp.id, "duration", e.target.value)}
-                    className={inputClass(false)} />
+                    onChange={(e) => updateExperience(exp.id, "duration", e.target.value)} className={inputClass(false)} />
                 </Field>
                 <Field label="Responsibilities & Achievements">
-                  <textarea
-                    placeholder={"• Led a team of 5 engineers to deliver...\n• Reduced load time by 40% by...\n• Implemented CI/CD pipeline that..."}
+                  <textarea placeholder={"• Led a team of 5 engineers...\n• Reduced load time by 40%...\n• Implemented CI/CD pipeline..."}
                     value={exp.description}
                     onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
                     rows="4" className={`${inputClass(false)} font-mono text-xs`} />
@@ -495,9 +454,11 @@ function ResumeBuilderContent() {
             </div>
           </div>
 
-          {/* PREVIEW */}
+          {/* PREVIEW PANEL */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col min-h-96 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)]">
-            <div className="flex flex-wrap gap-2 mb-4 pb-4 border-b border-gray-100 overflow-x-auto">
+
+            {/* Template Tabs */}
+            <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-gray-100 overflow-x-auto">
               {["ATS Professional", "Modern Tech", "Executive", "Creative", "Europe CV"].map((tmpl) => (
                 <button key={tmpl} onClick={() => setSelectedTemplate(tmpl)}
                   className={`min-h-[36px] text-xs md:text-sm px-3 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${selectedTemplate === tmpl ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
@@ -505,6 +466,35 @@ function ResumeBuilderContent() {
                 </button>
               ))}
             </div>
+
+            {/* Color Theme Picker */}
+            <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
+              <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
+              <div className="flex flex-wrap gap-2">
+                {COLOR_THEMES.map((theme) => (
+                  <button
+                    key={theme.value}
+                    onClick={() => setThemeColor(theme.value)}
+                    title={theme.label}
+                    style={{
+                      width: "22px",
+                      height: "22px",
+                      borderRadius: "50%",
+                      background: theme.value,
+                      cursor: "pointer",
+                      border: themeColor === theme.value ? "3px solid #6366f1" : "2px solid transparent",
+                      outline: themeColor === theme.value ? "2px solid #e0e7ff" : "none",
+                      flexShrink: 0,
+                    }}
+                  />
+                ))}
+              </div>
+              <span className="text-xs text-gray-500 ml-1">
+                {COLOR_THEMES.find((t) => t.value === themeColor)?.label}
+              </span>
+            </div>
+
+            {/* Resume Preview */}
             <div ref={resumeRef} className="overflow-auto flex-1">
               {renderPreviewComponent(selectedTemplate)}
             </div>
