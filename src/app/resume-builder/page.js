@@ -11,6 +11,13 @@ import CreativePreview from "../components/CreativePreview";
 import EuropePreview from "../components/EuropePreview";
 import UAEPreview from "../components/UAEPreview";
 
+// GA4 tracking helper
+const trackEvent = (eventName, params = {}) => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", eventName, params);
+  }
+};
+
 function Spinner() {
   return (
     <svg className="animate-spin h-4 w-4 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -192,7 +199,6 @@ function ResumeBuilderContent() {
   const removeExperience = (id) => setExperiences(experiences.filter((e) => e.id !== id));
   const updateExperience = (id, field, value) => setExperiences(experiences.map((e) => e.id === id ? { ...e, [field]: value } : e));
 
-  // Build combined strings
   const combinedExperience = experiences.filter((e) => e.company || e.role)
     .map((e) => {
       const header = `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}`;
@@ -240,6 +246,23 @@ function ResumeBuilderContent() {
     reader.readAsDataURL(file);
   };
 
+  const handleTemplateChange = (tmpl) => {
+    setSelectedTemplate(tmpl);
+    // Track template switch
+    trackEvent("template_selected", {
+      event_category: "Templates",
+      event_label: tmpl,
+      value: 1,
+    });
+    // Special track for UAE CV
+    if (tmpl === "UAE CV") {
+      trackEvent("uae_cv_selected", {
+        event_category: "Templates",
+        event_label: "UAE CV",
+      });
+    }
+  };
+
   const handleGenerateSummary = async () => {
     if (!jobTitle.trim()) { setGenerateError("Enter a job title first."); return; }
     setGenerateError(""); setIsGenerating(true);
@@ -252,6 +275,12 @@ function ResumeBuilderContent() {
       const data = await response.json();
       if (!data.summary) throw new Error("No summary returned.");
       setSummary(data.summary);
+      // Track AI summary generation
+      trackEvent("ai_summary_generated", {
+        event_category: "AI Features",
+        event_label: jobTitle,
+        value: 1,
+      });
     } catch (error) { setGenerateError(error?.message || "Unable to generate summary."); }
     finally { setIsGenerating(false); }
   };
@@ -278,6 +307,12 @@ function ResumeBuilderContent() {
       const data = await response.json();
       if (!data.skills) throw new Error("No skills returned.");
       setSuggestedSkills(data.skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 10));
+      // Track skill suggestions
+      trackEvent("skills_suggested", {
+        event_category: "AI Features",
+        event_label: jobTitle,
+        value: 1,
+      });
     } catch (error) { setSuggestSkillsError(error?.message || "Unable to suggest skills."); }
     finally { setIsSuggestingSkills(false); }
   };
@@ -292,9 +327,45 @@ function ResumeBuilderContent() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePrint = useReactToPrint({ contentRef: resumeRef, documentTitle: `${name || "resume"}` });
-  const handlePrintFullScreen = useReactToPrint({ contentRef: fullScreenPreviewRef, documentTitle: `${name || "resume"}` });
-  const handleDownloadClick = () => { if (validate()) handlePrint(); };
+  const handlePrint = useReactToPrint({
+    contentRef: resumeRef,
+    documentTitle: `${name || "resume"}`,
+  });
+
+  const handlePrintFullScreen = useReactToPrint({
+    contentRef: fullScreenPreviewRef,
+    documentTitle: `${name || "resume"}`,
+    onBeforePrint: async () => {
+      trackEvent("resume_download", {
+        event_category: "Resume",
+        event_label: selectedTemplate + " (Preview Modal)",
+        value: 1,
+      });
+    },
+  });
+
+  const handleDownloadClick = () => {
+    if (validate()) {
+      // Track download with full details
+      trackEvent("resume_download", {
+        event_category: "Resume",
+        event_label: selectedTemplate,
+        value: 1,
+      });
+      // Track which template was downloaded
+      trackEvent("template_downloaded", {
+        event_category: "Downloads",
+        event_label: selectedTemplate,
+        value: 1,
+      });
+      // Track color theme used
+      trackEvent("theme_color_used", {
+        event_category: "Customization",
+        event_label: isUAE ? uaeThemeColor : themeColor,
+      });
+      handlePrint();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -385,16 +456,14 @@ function ResumeBuilderContent() {
                       </select>
                     </Field>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Marital Status (Optional)">
-                      <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} className={inputClass(false)}>
-                        <option value="">Select (Optional)</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Divorced">Divorced</option>
-                      </select>
-                    </Field>
-                  </div>
+                  <Field label="Marital Status (Optional)">
+                    <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} className={inputClass(false)}>
+                      <option value="">Select (Optional)</option>
+                      <option value="Single">Single</option>
+                      <option value="Married">Married</option>
+                      <option value="Divorced">Divorced</option>
+                    </select>
+                  </Field>
                 </div>
               </>
             )}
@@ -522,7 +591,6 @@ function ResumeBuilderContent() {
                   <input type="text" placeholder="e.g. Jan 2022 – Present" value={exp.duration}
                     onChange={(e) => updateExperience(exp.id, "duration", e.target.value)} className={inputClass(false)} />
                 </Field>
-                {/* Company description — GulfTalent recommends for UAE CVs */}
                 {isUAE && (
                   <Field label="Company Description (Recommended for UAE)">
                     <input type="text"
@@ -547,7 +615,13 @@ function ResumeBuilderContent() {
                 className="min-h-[48px] bg-green-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
                 📄 Download PDF
               </button>
-              <button onClick={() => setShowFullScreenPreview(true)}
+              <button onClick={() => {
+                setShowFullScreenPreview(true);
+                trackEvent("resume_preview_opened", {
+                  event_category: "Resume",
+                  event_label: selectedTemplate,
+                });
+              }}
                 className="min-h-[48px] bg-indigo-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2">
                 👁 Preview Resume
               </button>
@@ -560,7 +634,7 @@ function ResumeBuilderContent() {
             {/* Template Tabs */}
             <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-gray-100 overflow-x-auto">
               {TEMPLATES.map((tmpl) => (
-                <button key={tmpl} onClick={() => setSelectedTemplate(tmpl)}
+                <button key={tmpl} onClick={() => handleTemplateChange(tmpl)}
                   className={`min-h-[36px] text-xs px-3 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${
                     selectedTemplate === tmpl
                       ? tmpl === "UAE CV" ? "bg-amber-500 text-white" : "bg-indigo-600 text-white"
@@ -571,13 +645,19 @@ function ResumeBuilderContent() {
               ))}
             </div>
 
-            {/* Color Picker for non-UAE templates */}
+            {/* Color Picker */}
             {!isUAE && (
               <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
                 <div className="flex flex-wrap gap-2">
                   {COLOR_THEMES.map((theme) => (
-                    <button key={theme.value} onClick={() => setThemeColor(theme.value)} title={theme.label}
+                    <button key={theme.value} onClick={() => {
+                      setThemeColor(theme.value);
+                      trackEvent("theme_color_changed", {
+                        event_category: "Customization",
+                        event_label: theme.label,
+                      });
+                    }} title={theme.label}
                       style={{ width: "22px", height: "22px", borderRadius: "50%", background: theme.value, cursor: "pointer", flexShrink: 0,
                         border: themeColor === theme.value ? "3px solid #6366f1" : "2px solid transparent",
                         outline: themeColor === theme.value ? "2px solid #e0e7ff" : "none" }} />
@@ -587,13 +667,19 @@ function ResumeBuilderContent() {
               </div>
             )}
 
-            {/* UAE 3-color picker */}
+            {/* UAE color picker */}
             {isUAE && (
               <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-medium whitespace-nowrap">UAE Style:</span>
                 <div className="flex gap-2">
                   {UAE_THEMES.map((theme) => (
-                    <button key={theme.value} onClick={() => setUaeThemeColor(theme.value)}
+                    <button key={theme.value} onClick={() => {
+                      setUaeThemeColor(theme.value);
+                      trackEvent("uae_theme_changed", {
+                        event_category: "Customization",
+                        event_label: theme.label,
+                      });
+                    }}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
                         uaeThemeColor === theme.value
                           ? "border-amber-400 bg-amber-50 text-amber-800"
