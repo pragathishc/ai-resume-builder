@@ -19,11 +19,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <GoogleAnalytics gaId="G-GZQE8ME4CL" />
-      <body className="min-h-full flex flex-col">
+  lang="en"
+  className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+>
+  <head>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8095568223295307"
+      crossOrigin="anonymous"
+    />
+  </head>
+  <GoogleAnalytics gaId="G-GZQE8ME4CL" />
+  <body className="min-h-full flex flex-col">
         <div className="flex-1">{children}</div>
 
         {/* Footer */}
