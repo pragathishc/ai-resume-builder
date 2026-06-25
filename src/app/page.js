@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ScrollAnimationClient from "./components/ScrollAnimationClient";
-
+import TemplatePreviews from "./components/TemplatePreviews";
 export default function Home() {
 
   const features = [
@@ -509,41 +509,7 @@ export default function Home() {
           <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
             Every template is tested against real Applicant Tracking Systems. Pick the design that matches your industry and career level — switch between them anytime without re-entering your information.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {templatePreviews.map((template, idx) => (
-              <Link key={template.name} href={template.href}>
-                <div
-                  className="fade-in-scroll bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
-                  style={{ transitionDelay: `${idx * 80}ms` }}
-                >
-                  {/* Real Resume Preview Thumbnail */}
-                  <div className="border-b border-gray-100 overflow-hidden relative">
-                    {template.preview}
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gray-900 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
-                      <span className="text-white font-semibold text-xs opacity-0 group-hover:opacity-100 transition-all bg-gray-900 px-3 py-1.5 rounded-full">
-                        Use Template →
-                      </span>
-                    </div>
-                  </div>
-                  {/* Card footer */}
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-semibold text-xs text-gray-900 group-hover:text-gray-700">
-                        {template.name}
-                      </h3>
-                      <span className={`text-white text-xs px-1.5 py-0.5 rounded-full ${template.badgeColor} whitespace-nowrap`} style={{ fontSize: "9px" }}>
-                        {template.badge}
-                      </span>
-                    </div>
-                    <p className="text-gray-500 leading-relaxed" style={{ fontSize: "10px" }}>
-                      {template.desc}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <TemplatePreviews /
         </div>
       </section>
 
