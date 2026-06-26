@@ -3,7 +3,7 @@ import ScrollAnimationClient from "./components/ScrollAnimationClient";
 import TemplatePreviews from "./components/TemplatePreviews";
 export const metadata = {
   title: "Free AI Resume Builder — No Sign Up, No Paywall",
-  description: "Build a professional ATS-friendly resume in minutes with AI summaries and skill suggestions. 6 templates, free PDF, no watermark, no sign up required.",
+  description: "Build a professional ATS-friendly resume in minutes with AI summaries and skill suggestions. 9 templates, free PDF, no watermark, no sign up required.",
   alternates: {
     canonical: "https://www.resumehelperai.com",
   },
@@ -28,8 +28,8 @@ export default function Home() {
     },
     {
       icon: "🎨",
-      title: "6 Industry-Specific Templates",
-      desc: "From ATS-strict formats for corporate roles to UAE-compliant CVs for Dubai jobs — pick the template that matches your industry, career level, and target country.",
+      title: "9 Industry-Specific Templates",
+      desc: "From ATS-strict formats for corporate roles to UAE-compliant CVs for Dubai jobs, nursing, fresher, and trades templates — pick the one that matches your industry, career level, and target country.",
     },
     {
       icon: "📄",
@@ -47,7 +47,7 @@ export default function Home() {
     {
       step: "1",
       title: "Choose Your Template",
-      desc: "Browse six professionally designed resume templates. Each one is ATS-tested and optimized for different industries. Preview them all before you start — switch anytime without losing your data.",
+      desc: "Browse nine professionally designed resume templates. Each one is ATS-tested and optimized for different industries. Preview them all before you start — switch anytime without losing your data.",
     },
     {
       step: "2",
@@ -64,7 +64,7 @@ export default function Home() {
   const whoIsThisFor = [
     {
       title: "Fresh Graduates",
-      desc: "Just finished your degree and writing your first resume? Our AI fills in the gaps — generating professional summaries and suggesting relevant skills even when you have limited work experience. The ATS Professional template is designed to highlight education, projects, and certifications.",
+      desc: "Just finished your degree and writing your first resume? Our AI fills in the gaps — generating professional summaries and suggesting relevant skills even when you have limited work experience. The dedicated Fresher template is designed to highlight education, projects, and certifications.",
     },
     {
       title: "Career Changers",
@@ -83,7 +83,7 @@ export default function Home() {
   const faqs = [
     {
       q: "Is Resume Helper AI really free?",
-      a: "Yes, Resume Helper AI is 100% free with no hidden charges. You can create unlimited resumes, use all six templates, generate AI summaries, get skill suggestions, and download as many PDFs as you need. There is no premium tier, no trial period, and no credit card required.",
+      a: "Yes, Resume Helper AI is 100% free with no hidden charges. You can create unlimited resumes, use all nine templates, generate AI summaries, get skill suggestions, and download as many PDFs as you need. There is no premium tier, no trial period, and no credit card required.",
     },
     {
       q: "Do I need to create an account or sign up?",
@@ -91,7 +91,7 @@ export default function Home() {
     },
     {
       q: "Are the resume templates ATS-friendly?",
-      a: "Absolutely. All six templates are designed to pass Applicant Tracking Systems used by major employers including those using Workday, Greenhouse, Lever, and Taleo. They use clean formatting, standard section headings, and readable fonts that ATS parsers handle without errors.",
+      a: "Absolutely. All nine templates are designed to pass Applicant Tracking Systems used by major employers including those using Workday, Greenhouse, Lever, and Taleo. They use clean formatting, standard section headings, and readable fonts that ATS parsers handle without errors.",
     },
     {
       q: "How does the AI summary generator work?",
@@ -118,6 +118,55 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <ScrollAnimationClient />
+
+      {/* Animation styles */}
+      <style>{`
+        @keyframes floatBlob {
+          0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+          33% { transform: translateY(-30px) translateX(20px) scale(1.05); }
+          66% { transform: translateY(20px) translateX(-15px) scale(0.97); }
+        }
+        @keyframes floatBlob2 {
+          0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+          50% { transform: translateY(-40px) translateX(-25px) scale(1.08); }
+        }
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes pulseSlow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+        @keyframes pingSlow {
+          0% { transform: scale(1); opacity: 1; }
+          75%, 100% { transform: scale(2.5); opacity: 0; }
+        }
+        @keyframes badgeFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        .blob-1 { animation: floatBlob 18s ease-in-out infinite; }
+        .blob-2 { animation: floatBlob2 22s ease-in-out infinite; }
+        .blob-3 { animation: floatBlob 15s ease-in-out infinite reverse; }
+        .gradient-text-anim {
+          background: linear-gradient(90deg, #1e293b, #4f46e5, #7c3aed, #1e293b);
+          background-size: 300% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradientShift 6s ease infinite;
+        }
+        .badge-pulse { animation: pulseSlow 2.5s ease-in-out infinite; }
+        .badge-float { animation: badgeFloat 3s ease-in-out infinite; }
+        .ping-dot { animation: pingSlow 2s cubic-bezier(0,0,0.2,1) infinite; }
+        .templates-3d-grid {
+          perspective: 1600px;
+        }
+        .templates-3d-grid > * {
+          transform-style: preserve-3d;
+        }
+      `}</style>
 
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 backdrop-blur-sm bg-opacity-95">
@@ -151,19 +200,19 @@ export default function Home() {
                 Free AI Resume Builder — No Sign Up, No Paywall
               </h1>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. Choose from six expert-designed templates, fill in your details, and download a clean PDF — completely free.
+                Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. Choose from nine expert-designed templates, fill in your details, and download a clean PDF — completely free.
               </p>
               <p className="text-lg text-gray-700 mb-8 leading-relaxed">
                 No account creation. No email required. No credit card. No watermark on your download. Resume Helper AI is the free AI resume builder that actually means free.
               </p>
               <Link href="/resume-builder">
-                <button className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-all hover:shadow-lg">
+                <button className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-all hover:shadow-lg hover:-translate-y-0.5">
                   Build Your Resume Free
                 </button>
               </Link>
             </div>
             <div className="fade-in-scroll md:flex justify-center hidden">
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-sm transform hover:shadow-3xl transition-shadow duration-300">
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-sm transform hover:shadow-3xl hover:-translate-y-2 hover:rotate-1 transition-all duration-500">
                 <div className="flex">
                   <div className="w-1/3 bg-gray-900 text-white p-6 flex flex-col">
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 mx-auto mb-4 flex-shrink-0" />
@@ -200,6 +249,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Templates Showcase — MOVED UP for maximum attraction */}
+      <section id="templates" className="relative bg-gradient-to-b from-white via-indigo-50/40 to-white py-20 overflow-hidden">
+        {/* Floating decorative 3D blobs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="blob-1 absolute -top-24 -left-24 w-72 h-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(99,102,241,0.25), transparent 70%)" }} />
+          <div className="blob-2 absolute top-32 -right-24 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(168,85,247,0.22), transparent 70%)" }} />
+          <div className="blob-3 absolute bottom-0 left-1/3 w-72 h-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(236,72,153,0.18), transparent 70%)" }} />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div className="text-center mb-14 fade-in-scroll">
+            <span className="badge-float inline-flex items-center gap-2 bg-white shadow-md border border-indigo-100 text-indigo-700 text-sm font-semibold px-5 py-2 rounded-full mb-6">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="ping-dot absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500" />
+              </span>
+              9 Industry-Specific Templates
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text-anim pb-1">
+              9 Professional Resume Templates
+            </h2>
+            <p className="text-center text-gray-600 text-lg max-w-3xl mx-auto">
+              Every template is tested against real Applicant Tracking Systems. Pick the design that matches your industry and career level — switch between them anytime without re-entering your information.
+            </p>
+          </div>
+
+          <div className="templates-3d-grid fade-in-scroll">
+            <TemplatePreviews />
+          </div>
+
+          <div className="text-center mt-12 fade-in-scroll">
+            <Link href="/resume-builder">
+              <button className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-all hover:shadow-xl hover:-translate-y-1">
+                Browse All Templates Free →
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Trust Row */}
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-12">
@@ -217,7 +306,7 @@ export default function Home() {
             <div className="fade-in-scroll">
               <div className="text-3xl mb-3">⭐</div>
               <h3 className="font-semibold text-gray-900 mb-1">ATS-Tested Templates</h3>
-              <p className="text-sm text-gray-600">Six professionally designed templates tested against Workday, Greenhouse, Lever, and other major ATS platforms.</p>
+              <p className="text-sm text-gray-600">Nine professionally designed templates tested against Workday, Greenhouse, Lever, and other major ATS platforms.</p>
             </div>
           </div>
         </div>
@@ -244,19 +333,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Templates Showcase */}
-      <section id="templates" className="bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6 fade-in-scroll">
-            6 Professional Resume Templates
-          </h2>
-          <p className="text-center text-gray-600 text-lg mb-16 max-w-3xl mx-auto fade-in-scroll">
-            Every template is tested against real Applicant Tracking Systems. Pick the design that matches your industry and career level — switch between them anytime without re-entering your information.
-          </p>
-          <TemplatePreviews />
-        </div>
-      </section>
-
       {/* How It Works */}
       <section id="how" className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -268,7 +344,7 @@ export default function Home() {
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             {howItWorks.map((item, idx) => (
-              <div key={idx} className="fade-in-scroll bg-gray-50 rounded-lg p-8 border border-gray-200" style={{ transitionDelay: `${idx * 100}ms` }}>
+              <div key={idx} className="fade-in-scroll bg-gray-50 rounded-lg p-8 border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" style={{ transitionDelay: `${idx * 100}ms` }}>
                 <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center text-lg font-bold mb-4">{item.step}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{item.desc}</p>
@@ -296,7 +372,7 @@ export default function Home() {
           </p>
           <div className="grid md:grid-cols-3 gap-6">
             {features.map((feature, idx) => (
-              <div key={idx} className="fade-in-scroll bg-white border border-gray-200 rounded-lg p-8 hover:border-gray-300 hover:shadow-md transition" style={{ transitionDelay: `${idx * 100}ms` }}>
+              <div key={idx} className="fade-in-scroll bg-white border border-gray-200 rounded-lg p-8 hover:border-indigo-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" style={{ transitionDelay: `${idx * 100}ms` }}>
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{feature.desc}</p>
@@ -317,7 +393,7 @@ export default function Home() {
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             {whoIsThisFor.map((item, idx) => (
-              <div key={idx} className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-8" style={{ transitionDelay: `${idx * 100}ms` }}>
+              <div key={idx} className="fade-in-scroll bg-gray-50 border border-gray-200 rounded-lg p-8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300" style={{ transitionDelay: `${idx * 100}ms` }}>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                 <p className="text-gray-700 leading-relaxed">{item.desc}</p>
               </div>
@@ -366,7 +442,7 @@ export default function Home() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Your Next Interview Starts with a Better Resume</h2>
           <p className="text-xl mb-8 text-gray-300">Join thousands of job seekers using Resume Helper AI to build professional resumes — free, no sign up, no paywall, no watermark.</p>
           <Link href="/resume-builder">
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg">
+            <button className="bg-white text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-all hover:shadow-lg hover:-translate-y-0.5">
               Create Your Resume Now
             </button>
           </Link>
@@ -388,7 +464,7 @@ export default function Home() {
       mainEntity: [
         { "@type": "Question", name: "Is Resume Helper AI really free?", acceptedAnswer: { "@type": "Answer", text: "Yes, 100% free. No hidden charges, no credit card, no premium tier." }},
         { "@type": "Question", name: "Do I need to sign up?", acceptedAnswer: { "@type": "Answer", text: "No. Start building immediately with no registration required." }},
-        { "@type": "Question", name: "Are templates ATS-friendly?", acceptedAnswer: { "@type": "Answer", text: "Yes. All six templates pass Workday, Greenhouse, Lever, and Taleo ATS systems." }},
+        { "@type": "Question", name: "Are templates ATS-friendly?", acceptedAnswer: { "@type": "Answer", text: "Yes. All nine templates pass Workday, Greenhouse, Lever, and Taleo ATS systems." }},
         { "@type": "Question", name: "Which countries do you support?", acceptedAnswer: { "@type": "Answer", text: "US, Canada, UK, Europe, UAE, and India. We have a dedicated MOHRE-compliant UAE CV template." }},
       ],
     }),
@@ -404,7 +480,7 @@ export default function Home() {
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web Browser",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-      description: "Free AI resume builder with 6 professional templates, AI summary generator, and instant PDF download.",
+      description: "Free AI resume builder with 9 professional templates, AI summary generator, and instant PDF download.",
       url: "https://www.resumehelperai.com",
       aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1250" },
     }),
