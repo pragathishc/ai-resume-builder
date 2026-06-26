@@ -10,6 +10,9 @@ import ExecutivePreview from "../components/ExecutivePreview";
 import CreativePreview from "../components/CreativePreview";
 import EuropePreview from "../components/EuropePreview";
 import UAEPreview from "../components/UAEPreview";
+import NursingPreview from "../components/NursingPreview";
+import FresherPreview from "../components/FresherPreview";
+import TradesPreview from "../components/TradesPreview";
 
 // GA4 tracking helper
 const trackEvent = (eventName, params = {}) => {
@@ -96,7 +99,23 @@ const UAE_THEMES = [
   { label: "Executive Black", value: "#1c1c1c", emoji: "⚫" },
 ];
 
-const TEMPLATES = ["ATS Professional", "Modern Tech", "Executive", "Creative", "Europe CV", "UAE CV"];
+const NURSING_THEMES = [
+  { label: "Medical Teal", value: "#0d7377", emoji: "🩺" },
+  { label: "Hospital Blue", value: "#1d4ed8", emoji: "🏥" },
+  { label: "Care Green", value: "#15803d", emoji: "💚" },
+];
+
+const TEMPLATES = [
+  { id: "ATS Professional", label: "ATS", emoji: "" },
+  { id: "Modern Tech", label: "Modern", emoji: "" },
+  { id: "Executive", label: "Executive", emoji: "" },
+  { id: "Creative", label: "Creative", emoji: "" },
+  { id: "Europe CV", label: "Europe", emoji: "🇪🇺" },
+  { id: "UAE CV", label: "UAE CV", emoji: "🇦🇪" },
+  { id: "Nursing", label: "Nursing", emoji: "🏥" },
+  { id: "Fresher", label: "Fresher", emoji: "🎓" },
+  { id: "Trades", label: "Trades", emoji: "🔧" },
+];
 
 const VISA_OPTIONS = [
   "Visit Visa – Immediate Joiner",
@@ -110,22 +129,13 @@ const VISA_OPTIONS = [
 ];
 
 const NOTICE_OPTIONS = [
-  "Immediate Joiner",
-  "1 Week Notice",
-  "2 Weeks Notice",
-  "1 Month Notice",
-  "2 Months Notice",
-  "3 Months Notice",
+  "Immediate Joiner", "1 Week Notice", "2 Weeks Notice",
+  "1 Month Notice", "2 Months Notice", "3 Months Notice",
 ];
 
 const DRIVING_LICENSE_OPTIONS = [
-  "UAE Driving License",
-  "GCC Driving License",
-  "International Driving License",
-  "Indian Driving License",
-  "UK Driving License",
-  "US Driving License",
-  "No Driving License",
+  "UAE Driving License", "GCC Driving License", "International Driving License",
+  "Indian Driving License", "UK Driving License", "US Driving License", "No Driving License",
 ];
 
 function ResumeBuilderContent() {
@@ -135,6 +145,7 @@ function ResumeBuilderContent() {
   const [showFullScreenPreview, setShowFullScreenPreview] = useState(false);
   const [themeColor, setThemeColor] = useState("#1e3a5f");
   const [uaeThemeColor, setUaeThemeColor] = useState("#b8860b");
+  const [nursingThemeColor, setNursingThemeColor] = useState("#0d7377");
 
   // Personal Info
   const [name, setName] = useState("");
@@ -152,6 +163,13 @@ function ResumeBuilderContent() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [maritalStatus, setMaritalStatus] = useState("");
   const [drivingLicense, setDrivingLicense] = useState("");
+
+  // Nursing specific
+  const [nursingLicense, setNursingLicense] = useState("");
+  const [licenseExpiry, setLicenseExpiry] = useState("");
+  const [nursingSpecialty, setNursingSpecialty] = useState("");
+  const [blsCertDate, setBlsCertDate] = useState("");
+  const [aclsCertDate, setAclsCertDate] = useState("");
 
   // Job & Summary
   const [jobTitle, setJobTitle] = useState("");
@@ -183,6 +201,9 @@ function ResumeBuilderContent() {
   const fullScreenPreviewRef = useRef();
 
   const isUAE = selectedTemplate === "UAE CV";
+  const isNursing = selectedTemplate === "Nursing";
+  const isFresher = selectedTemplate === "Fresher";
+  const isTrades = selectedTemplate === "Trades";
 
   const inputClass = (hasError) =>
     `w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition ${hasError ? "border-red-400 bg-red-50" : "border-gray-200 bg-white"}`;
@@ -204,8 +225,7 @@ function ResumeBuilderContent() {
       const header = `${e.company}${e.role ? ` — ${e.role}` : ""}${e.duration ? ` (${e.duration})` : ""}`;
       const compDesc = e.companyDesc ? `(${e.companyDesc})` : "";
       return [header, compDesc, e.description].filter(Boolean).join("\n");
-    })
-    .join("\n\n");
+    }).join("\n\n");
 
   const combinedProjects = projects.filter((p) => p.name);
   const primaryProject = combinedProjects[0] || { name: "", description: "", tech: "" };
@@ -215,6 +235,12 @@ function ResumeBuilderContent() {
   const primaryEdu = combinedEducation[0] || { degree: "", college: "", year: "" };
   const extraEdu = combinedEducation.slice(1).map((e) => `${e.degree}${e.college ? `, ${e.college}` : ""}${e.year ? ` (${e.year})` : ""}`).join("\n");
 
+  const getThemeColor = () => {
+    if (isUAE) return uaeThemeColor;
+    if (isNursing) return nursingThemeColor;
+    return themeColor;
+  };
+
   const previewProps = {
     name, email, phone, city, linkedin, portfolio,
     jobTitle, photo, skills, languages, certifications, summary,
@@ -223,7 +249,8 @@ function ResumeBuilderContent() {
     projectName: primaryProject.name, projectDescription: primaryProject.description, projectTech: primaryProject.tech,
     extraProjects, experience: combinedExperience,
     nationality, visaStatus, noticePeriod, dateOfBirth, maritalStatus, drivingLicense,
-    themeColor: isUAE ? uaeThemeColor : themeColor,
+    nursingLicense, licenseExpiry, nursingSpecialty, blsCertDate, aclsCertDate,
+    themeColor: getThemeColor(),
   };
 
   const renderPreviewComponent = (templateName) => {
@@ -234,6 +261,9 @@ function ResumeBuilderContent() {
       case "Creative": return <CreativePreview {...previewProps} />;
       case "Europe CV": return <EuropePreview {...previewProps} />;
       case "UAE CV": return <UAEPreview {...previewProps} />;
+      case "Nursing": return <NursingPreview {...previewProps} />;
+      case "Fresher": return <FresherPreview {...previewProps} />;
+      case "Trades": return <TradesPreview {...previewProps} />;
       default: return <ATSPreview {...previewProps} />;
     }
   };
@@ -248,19 +278,7 @@ function ResumeBuilderContent() {
 
   const handleTemplateChange = (tmpl) => {
     setSelectedTemplate(tmpl);
-    // Track template switch
-    trackEvent("template_selected", {
-      event_category: "Templates",
-      event_label: tmpl,
-      value: 1,
-    });
-    // Special track for UAE CV
-    if (tmpl === "UAE CV") {
-      trackEvent("uae_cv_selected", {
-        event_category: "Templates",
-        event_label: "UAE CV",
-      });
-    }
+    trackEvent("template_selected", { event_category: "Templates", event_label: tmpl });
   };
 
   const handleGenerateSummary = async () => {
@@ -275,12 +293,7 @@ function ResumeBuilderContent() {
       const data = await response.json();
       if (!data.summary) throw new Error("No summary returned.");
       setSummary(data.summary);
-      // Track AI summary generation
-      trackEvent("ai_summary_generated", {
-        event_category: "AI Features",
-        event_label: jobTitle,
-        value: 1,
-      });
+      trackEvent("ai_summary_generated", { event_category: "AI Features", event_label: jobTitle });
     } catch (error) { setGenerateError(error?.message || "Unable to generate summary."); }
     finally { setIsGenerating(false); }
   };
@@ -307,12 +320,7 @@ function ResumeBuilderContent() {
       const data = await response.json();
       if (!data.skills) throw new Error("No skills returned.");
       setSuggestedSkills(data.skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 10));
-      // Track skill suggestions
-      trackEvent("skills_suggested", {
-        event_category: "AI Features",
-        event_label: jobTitle,
-        value: 1,
-      });
+      trackEvent("skills_suggested", { event_category: "AI Features", event_label: jobTitle });
     } catch (error) { setSuggestSkillsError(error?.message || "Unable to suggest skills."); }
     finally { setIsSuggestingSkills(false); }
   };
@@ -327,44 +335,30 @@ function ResumeBuilderContent() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePrint = useReactToPrint({
-    contentRef: resumeRef,
-    documentTitle: `${name || "resume"}`,
-  });
-
+  const handlePrint = useReactToPrint({ contentRef: resumeRef, documentTitle: `${name || "resume"}` });
   const handlePrintFullScreen = useReactToPrint({
     contentRef: fullScreenPreviewRef,
     documentTitle: `${name || "resume"}`,
     onBeforePrint: async () => {
-      trackEvent("resume_download", {
-        event_category: "Resume",
-        event_label: selectedTemplate + " (Preview Modal)",
-        value: 1,
-      });
+      trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate + " (Preview)" });
     },
   });
 
   const handleDownloadClick = () => {
     if (validate()) {
-      // Track download with full details
-      trackEvent("resume_download", {
-        event_category: "Resume",
-        event_label: selectedTemplate,
-        value: 1,
-      });
-      // Track which template was downloaded
-      trackEvent("template_downloaded", {
-        event_category: "Downloads",
-        event_label: selectedTemplate,
-        value: 1,
-      });
-      // Track color theme used
-      trackEvent("theme_color_used", {
-        event_category: "Customization",
-        event_label: isUAE ? uaeThemeColor : themeColor,
-      });
+      trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate });
       handlePrint();
     }
+  };
+
+  const getTemplateBtnClass = (tmpl) => {
+    const isSelected = selectedTemplate === tmpl.id;
+    if (!isSelected) return "bg-gray-100 text-gray-600 hover:bg-gray-200";
+    if (tmpl.id === "UAE CV") return "bg-amber-500 text-white";
+    if (tmpl.id === "Nursing") return "bg-teal-600 text-white";
+    if (tmpl.id === "Fresher") return "bg-blue-600 text-white";
+    if (tmpl.id === "Trades") return "bg-slate-700 text-white";
+    return "bg-indigo-600 text-white";
   };
 
   return (
@@ -400,7 +394,7 @@ function ResumeBuilderContent() {
               </Field>
             </div>
             <Field label="City / Country">
-              <input type="text" placeholder={isUAE ? "e.g. Dubai, UAE" : "e.g. New York, USA"} value={city}
+              <input type="text" placeholder="e.g. Dubai, UAE" value={city}
                 onChange={(e) => setCity(e.target.value)} className={inputClass(false)} />
             </Field>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -423,9 +417,7 @@ function ResumeBuilderContent() {
               <>
                 <SectionHeader title="🇦🇪 UAE Details" />
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3">
-                  <p className="text-xs text-amber-700 font-medium mb-3">
-                    Required by UAE employers — GulfTalent & MOHRE standards
-                  </p>
+                  <p className="text-xs text-amber-700 font-medium mb-3">Required by UAE employers — GulfTalent & MOHRE standards</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Field label="Nationality">
                       <input type="text" placeholder="e.g. Indian, Pakistani, British" value={nationality}
@@ -443,7 +435,7 @@ function ResumeBuilderContent() {
                     </select>
                   </Field>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Field label="Notice Period / Availability">
+                    <Field label="Notice Period">
                       <select value={noticePeriod} onChange={(e) => setNoticePeriod(e.target.value)} className={inputClass(false)}>
                         <option value="">Select Notice Period</option>
                         {NOTICE_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
@@ -468,16 +460,58 @@ function ResumeBuilderContent() {
               </>
             )}
 
+            {/* NURSING FIELDS */}
+            {isNursing && (
+              <>
+                <SectionHeader title="🏥 Nursing Details" />
+                <div className="bg-teal-50 border border-teal-200 rounded-xl p-4 mb-3">
+                  <p className="text-xs text-teal-700 font-medium mb-3">Required for hospital applications — DHA/DOH/MOHAP standards</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Field label="Nursing License Number">
+                      <input type="text" placeholder="e.g. DHA-RN-12345 or RN-CA-987654" value={nursingLicense}
+                        onChange={(e) => setNursingLicense(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                    <Field label="License Expiry Date">
+                      <input type="text" placeholder="e.g. Dec 2026" value={licenseExpiry}
+                        onChange={(e) => setLicenseExpiry(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                  </div>
+                  <Field label="Nursing Specialty">
+                    <input type="text" placeholder="e.g. ICU, ER, NICU, OR, Oncology, Haemodialysis" value={nursingSpecialty}
+                      onChange={(e) => setNursingSpecialty(e.target.value)} className={inputClass(false)} />
+                  </Field>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Field label="BLS Certification Date">
+                      <input type="text" placeholder="e.g. Jan 2025 (AHA)" value={blsCertDate}
+                        onChange={(e) => setBlsCertDate(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                    <Field label="ACLS Certification Date">
+                      <input type="text" placeholder="e.g. Jan 2025 (AHA)" value={aclsCertDate}
+                        onChange={(e) => setAclsCertDate(e.target.value)} className={inputClass(false)} />
+                    </Field>
+                  </div>
+                </div>
+              </>
+            )}
+
             <SectionHeader title="Target Role" />
-            <Field label="Target Job Title" required error={errors.jobTitle}>
-              <input type="text" placeholder="e.g. Senior Software Engineer" value={jobTitle}
+            <Field label={isFresher ? "Target Job Title / Internship Role" : "Target Job Title"} required error={errors.jobTitle}>
+              <input type="text"
+                placeholder={isFresher ? "e.g. Software Engineer Intern / Marketing Fresher" : isNursing ? "e.g. Registered Nurse — ICU" : isTrades ? "e.g. Senior Electrician / Master Plumber" : "e.g. Senior Software Engineer"}
+                value={jobTitle}
                 onChange={(e) => { setJobTitle(e.target.value); setErrors((p) => ({ ...p, jobTitle: "" })); }}
                 className={inputClass(errors.jobTitle)} />
             </Field>
 
-            <SectionHeader title="Professional Summary" />
-            <Field label="Summary">
-              <textarea placeholder="Write a brief summary or use AI to generate one..." value={summary}
+            <SectionHeader title={isFresher ? "Career Objective" : "Professional Summary"} />
+            <Field label={isFresher ? "Career Objective" : "Summary"}>
+              <textarea
+                placeholder={isFresher
+                  ? "Motivated Computer Science graduate seeking entry-level role to apply my skills..."
+                  : isNursing
+                  ? "Compassionate Registered Nurse with X years of ICU experience..."
+                  : "Write a brief summary or use AI to generate one..."}
+                value={summary}
                 onChange={(e) => setSummary(e.target.value)} rows="4" className={inputClass(false)} />
             </Field>
             <div className="flex flex-col sm:flex-row items-start gap-3 mb-2">
@@ -493,7 +527,7 @@ function ResumeBuilderContent() {
               <EntryCard key={edu.id} title={edu.degree || `Education ${idx + 1}`} subtitle={edu.college}
                 onDelete={() => removeEducation(edu.id)} defaultOpen={idx === 0}>
                 <Field label="Degree / Qualification">
-                  <input type="text" placeholder="e.g. B.Tech Computer Science" value={edu.degree}
+                  <input type="text" placeholder={isFresher ? "e.g. B.Tech Computer Science (Final Year)" : "e.g. B.Tech Computer Science"} value={edu.degree}
                     onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} className={inputClass(false)} />
                 </Field>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -501,8 +535,8 @@ function ResumeBuilderContent() {
                     <input type="text" placeholder="e.g. MIT" value={edu.college}
                       onChange={(e) => updateEducation(edu.id, "college", e.target.value)} className={inputClass(false)} />
                   </Field>
-                  <Field label="Graduation Year">
-                    <input type="text" placeholder="e.g. 2023" value={edu.year}
+                  <Field label="Year">
+                    <input type="text" placeholder="e.g. 2024" value={edu.year}
                       onChange={(e) => updateEducation(edu.id, "year", e.target.value)} className={inputClass(false)} />
                   </Field>
                 </div>
@@ -512,7 +546,9 @@ function ResumeBuilderContent() {
 
             <SectionHeader title="Skills" />
             <Field label="Skills (comma separated)">
-              <textarea placeholder="e.g. React, Node.js, Python, SQL..." value={skills}
+              <textarea
+                placeholder={isNursing ? "e.g. ICU Care, IV Therapy, Wound Management, Epic EHR, Patient Assessment..." : isTrades ? "e.g. Electrical Wiring, Plumbing, Blueprint Reading, Safety Compliance..." : "e.g. React, Node.js, Python, SQL..."}
+                value={skills}
                 onChange={(e) => setSkills(e.target.value)} rows="3" className={inputClass(false)} />
             </Field>
             <div className="flex flex-col gap-3 mb-2">
@@ -543,20 +579,24 @@ function ResumeBuilderContent() {
 
             <SectionHeader title="Additional Information" />
             <Field label="Languages (comma separated)">
-              <textarea placeholder={isUAE ? "e.g. English, Arabic, Hindi, Urdu" : "e.g. English, French, Spanish"} value={languages}
+              <textarea placeholder="e.g. English, Arabic, Hindi" value={languages}
                 onChange={(e) => setLanguages(e.target.value)} rows="2" className={inputClass(false)} />
             </Field>
             <Field label="Certifications (comma separated)">
-              <input type="text" placeholder="e.g. PMP, ACCA, AWS Certified, CIPD" value={certifications}
+              <input type="text"
+                placeholder={isNursing ? "e.g. BLS (AHA), ACLS (AHA), PALS, CCRN" : isTrades ? "e.g. UAE Trade License, OSHA Safety, First Aid" : "e.g. AWS Certified, PMP, Google Analytics"}
+                value={certifications}
                 onChange={(e) => setCertifications(e.target.value)} className={inputClass(false)} />
             </Field>
 
-            <SectionHeader title="Projects" />
+            <SectionHeader title={isFresher ? "Academic Projects" : "Projects"} />
             {projects.map((proj, idx) => (
               <EntryCard key={proj.id} title={proj.name || `Project ${idx + 1}`} subtitle={proj.tech}
                 onDelete={() => removeProject(proj.id)} defaultOpen={idx === 0}>
                 <Field label="Project Name">
-                  <input type="text" placeholder="e.g. E-Commerce Platform" value={proj.name}
+                  <input type="text"
+                    placeholder={isFresher ? "e.g. Student Management System" : isTrades ? "e.g. Commercial Building Rewiring" : "e.g. E-Commerce Platform"}
+                    value={proj.name}
                     onChange={(e) => updateProject(proj.id, "name", e.target.value)} className={inputClass(false)} />
                 </Field>
                 <Field label="Description">
@@ -564,26 +604,32 @@ function ResumeBuilderContent() {
                     onChange={(e) => updateProject(proj.id, "description", e.target.value)}
                     rows="3" className={inputClass(false)} />
                 </Field>
-                <Field label="Technologies Used">
-                  <input type="text" placeholder="e.g. React, Node.js, MongoDB" value={proj.tech}
+                <Field label={isTrades ? "Tools / Equipment Used" : "Technologies Used"}>
+                  <input type="text"
+                    placeholder={isTrades ? "e.g. Power Tools, CAD, Safety Equipment" : "e.g. React, Node.js, MongoDB"}
+                    value={proj.tech}
                     onChange={(e) => updateProject(proj.id, "tech", e.target.value)} className={inputClass(false)} />
                 </Field>
               </EntryCard>
             ))}
             <AddButton onClick={addProject} label="Add Another Project" />
 
-            <SectionHeader title="Work Experience" />
+            <SectionHeader title={isNursing ? "Clinical Experience" : "Work Experience"} />
             {experiences.map((exp, idx) => (
               <EntryCard key={exp.id} title={exp.role || `Experience ${idx + 1}`}
                 subtitle={exp.company ? `${exp.company}${exp.duration ? ` · ${exp.duration}` : ""}` : ""}
                 onDelete={() => removeExperience(exp.id)} defaultOpen={idx === 0}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <Field label="Company Name">
-                    <input type="text" placeholder={isUAE ? "e.g. Emirates Group" : "e.g. Google"} value={exp.company}
+                  <Field label={isNursing ? "Hospital / Facility" : "Company Name"}>
+                    <input type="text"
+                      placeholder={isNursing ? "e.g. Cleveland Clinic Abu Dhabi" : isUAE ? "e.g. Emirates Group" : "e.g. Google"}
+                      value={exp.company}
                       onChange={(e) => updateExperience(exp.id, "company", e.target.value)} className={inputClass(false)} />
                   </Field>
                   <Field label="Job Title / Role">
-                    <input type="text" placeholder="e.g. Software Engineer" value={exp.role}
+                    <input type="text"
+                      placeholder={isNursing ? "e.g. Staff Nurse — ICU" : isTrades ? "e.g. Senior Electrician" : "e.g. Software Engineer"}
+                      value={exp.role}
                       onChange={(e) => updateExperience(exp.id, "role", e.target.value)} className={inputClass(false)} />
                   </Field>
                 </div>
@@ -593,35 +639,32 @@ function ResumeBuilderContent() {
                 </Field>
                 {isUAE && (
                   <Field label="Company Description (Recommended for UAE)">
-                    <input type="text"
-                      placeholder="e.g. Largest telecom provider in UAE with 5000+ employees"
+                    <input type="text" placeholder="e.g. Largest telecom provider in UAE with 5000+ employees"
                       value={exp.companyDesc}
-                      onChange={(e) => updateExperience(exp.id, "companyDesc", e.target.value)}
-                      className={inputClass(false)} />
+                      onChange={(e) => updateExperience(exp.id, "companyDesc", e.target.value)} className={inputClass(false)} />
                   </Field>
                 )}
                 <Field label="Responsibilities & Achievements">
-                  <textarea placeholder={"• Led a team of 5 engineers...\n• Reduced costs by AED 500K...\n• Managed GCC-wide operations..."}
+                  <textarea
+                    placeholder={isNursing
+                      ? "• Provided critical care to 8-10 ICU patients per shift\n• Administered IV medications and monitored vital signs\n• Maintained 98% patient satisfaction score"
+                      : isTrades
+                      ? "• Installed electrical systems in 50+ residential units\n• Reduced project completion time by 20%\n• Zero safety incidents over 3 years"
+                      : "• Led a team of 5 engineers...\n• Reduced load time by 40%..."}
                     value={exp.description}
                     onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
                     rows="4" className={`${inputClass(false)} font-mono text-xs`} />
                 </Field>
               </EntryCard>
             ))}
-            <AddButton onClick={addExperience} label="Add Another Experience" />
+            <AddButton onClick={addExperience} label={isNursing ? "Add Another Clinical Role" : "Add Another Experience"} />
 
             <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t border-gray-100">
               <button onClick={handleDownloadClick}
                 className="min-h-[48px] bg-green-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
                 📄 Download PDF
               </button>
-              <button onClick={() => {
-                setShowFullScreenPreview(true);
-                trackEvent("resume_preview_opened", {
-                  event_category: "Resume",
-                  event_label: selectedTemplate,
-                });
-              }}
+              <button onClick={() => { setShowFullScreenPreview(true); trackEvent("resume_preview_opened", { event_category: "Resume", event_label: selectedTemplate }); }}
                 className="min-h-[48px] bg-indigo-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2">
                 👁 Preview Resume
               </button>
@@ -631,33 +674,23 @@ function ResumeBuilderContent() {
           {/* PREVIEW PANEL */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col min-h-96 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)]">
 
-            {/* Template Tabs */}
-            <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-gray-100 overflow-x-auto">
+            {/* Template Tabs — scrollable */}
+            <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-gray-100">
               {TEMPLATES.map((tmpl) => (
-                <button key={tmpl} onClick={() => handleTemplateChange(tmpl)}
-                  className={`min-h-[36px] text-xs px-3 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${
-                    selectedTemplate === tmpl
-                      ? tmpl === "UAE CV" ? "bg-amber-500 text-white" : "bg-indigo-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}>
-                  {tmpl === "UAE CV" ? "🇦🇪 UAE CV" : tmpl}
+                <button key={tmpl.id} onClick={() => handleTemplateChange(tmpl.id)}
+                  className={`min-h-[34px] text-xs px-2.5 py-1.5 rounded-lg transition whitespace-nowrap flex-shrink-0 font-medium ${getTemplateBtnClass(tmpl)}`}>
+                  {tmpl.emoji} {tmpl.label}
                 </button>
               ))}
             </div>
 
-            {/* Color Picker */}
-            {!isUAE && (
+            {/* Color Pickers */}
+            {!isUAE && !isNursing && (
               <div className="flex items-center gap-2 mb-3 pb-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Theme:</span>
                 <div className="flex flex-wrap gap-2">
                   {COLOR_THEMES.map((theme) => (
-                    <button key={theme.value} onClick={() => {
-                      setThemeColor(theme.value);
-                      trackEvent("theme_color_changed", {
-                        event_category: "Customization",
-                        event_label: theme.label,
-                      });
-                    }} title={theme.label}
+                    <button key={theme.value} onClick={() => { setThemeColor(theme.value); trackEvent("theme_color_changed", { event_category: "Customization", event_label: theme.label }); }} title={theme.label}
                       style={{ width: "22px", height: "22px", borderRadius: "50%", background: theme.value, cursor: "pointer", flexShrink: 0,
                         border: themeColor === theme.value ? "3px solid #6366f1" : "2px solid transparent",
                         outline: themeColor === theme.value ? "2px solid #e0e7ff" : "none" }} />
@@ -667,26 +700,28 @@ function ResumeBuilderContent() {
               </div>
             )}
 
-            {/* UAE color picker */}
             {isUAE && (
               <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-100">
                 <span className="text-xs text-gray-400 font-medium whitespace-nowrap">UAE Style:</span>
                 <div className="flex gap-2">
                   {UAE_THEMES.map((theme) => (
-                    <button key={theme.value} onClick={() => {
-                      setUaeThemeColor(theme.value);
-                      trackEvent("uae_theme_changed", {
-                        event_category: "Customization",
-                        event_label: theme.label,
-                      });
-                    }}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
-                        uaeThemeColor === theme.value
-                          ? "border-amber-400 bg-amber-50 text-amber-800"
-                          : "border-gray-200 text-gray-600 hover:bg-gray-50"
-                      }`}>
-                      <span>{theme.emoji}</span>
-                      <span>{theme.label}</span>
+                    <button key={theme.value} onClick={() => setUaeThemeColor(theme.value)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${uaeThemeColor === theme.value ? "border-amber-400 bg-amber-50 text-amber-800" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
+                      {theme.emoji} {theme.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isNursing && (
+              <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-100">
+                <span className="text-xs text-gray-400 font-medium whitespace-nowrap">Style:</span>
+                <div className="flex gap-2">
+                  {NURSING_THEMES.map((theme) => (
+                    <button key={theme.value} onClick={() => setNursingThemeColor(theme.value)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${nursingThemeColor === theme.value ? "border-teal-400 bg-teal-50 text-teal-800" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
+                      {theme.emoji} {theme.label}
                     </button>
                   ))}
                 </div>
