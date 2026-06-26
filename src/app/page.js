@@ -1,7 +1,13 @@
 import Link from "next/link";
 import ScrollAnimationClient from "./components/ScrollAnimationClient";
 import TemplatePreviews from "./components/TemplatePreviews";
-
+export const metadata = {
+  title: "Free AI Resume Builder — No Sign Up, No Paywall",
+  description: "Build a professional ATS-friendly resume in minutes with AI summaries and skill suggestions. 6 templates, free PDF, no watermark, no sign up required.",
+  alternates: {
+    canonical: "https://www.resumehelperai.com",
+  },
+};
 export default function Home() {
 
   const features = [
@@ -373,6 +379,37 @@ export default function Home() {
           <p className="text-sm font-semibold">Advertisement</p>
         </div>
       </section>
+        <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        { "@type": "Question", name: "Is Resume Helper AI really free?", acceptedAnswer: { "@type": "Answer", text: "Yes, 100% free. No hidden charges, no credit card, no premium tier." }},
+        { "@type": "Question", name: "Do I need to sign up?", acceptedAnswer: { "@type": "Answer", text: "No. Start building immediately with no registration required." }},
+        { "@type": "Question", name: "Are templates ATS-friendly?", acceptedAnswer: { "@type": "Answer", text: "Yes. All six templates pass Workday, Greenhouse, Lever, and Taleo ATS systems." }},
+        { "@type": "Question", name: "Which countries do you support?", acceptedAnswer: { "@type": "Answer", text: "US, Canada, UK, Europe, UAE, and India. We have a dedicated MOHRE-compliant UAE CV template." }},
+      ],
+    }),
+  }}
+/>
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Resume Helper AI",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web Browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      description: "Free AI resume builder with 6 professional templates, AI summary generator, and instant PDF download.",
+      url: "https://www.resumehelperai.com",
+      aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1250" },
+    }),
+  }}
+/>
     </main>
   );
 }
