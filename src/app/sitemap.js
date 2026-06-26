@@ -13,22 +13,34 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      url: "https://www.resumehelperai.com/blog/how-to-make-a-resume-with-ai",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.resumehelperai.com/blog/free-resume-builder-vs-paid",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.resumehelperai.com/about",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: "https://www.resumehelperai.com/privacy",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.4,
-    },
-    {
       url: "https://www.resumehelperai.com/contact",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
+    },
+    {
+      url: "https://www.resumehelperai.com/privacy",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.4,
     },
   ];
 }
