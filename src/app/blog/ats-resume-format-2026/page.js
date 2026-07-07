@@ -1,5 +1,4 @@
-import Link from "next/link";https://github.com/pragathishc/ai-resume-builder/tree/main/src/app/blog/ats-resume-format-2026
-
+import Link from "next/link";
 export const metadata = {
   title: "Best Resume Format for ATS Systems in 2026",
   description: "Learn exactly which resume format passes Applicant Tracking Systems in 2026, with real formatting rules recruiters and ATS software actually check.",
