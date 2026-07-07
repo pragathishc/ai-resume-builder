@@ -286,7 +286,7 @@ export default function TemplatePreviews() {
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-gray-300 hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
               <div className="border-b border-gray-100 overflow-hidden relative">
                 <ThumbnailComponent />
-                <div className="absolute inset-0 bg-gray-900 bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/10 transition-all duration-300 flex items-center justify-center">
                   <span className="text-white font-semibold text-xs opacity-0 group-hover:opacity-100 transition-all bg-gray-900 bg-opacity-80 px-3 py-1.5 rounded-full">
                     Use Template →
                   </span>
