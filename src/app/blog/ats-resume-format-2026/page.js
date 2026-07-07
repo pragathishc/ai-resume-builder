@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link";https://github.com/pragathishc/ai-resume-builder/tree/main/src/app/blog/ats-resume-format-2026
 
 export const metadata = {
   title: "Best Resume Format for ATS Systems in 2026",
