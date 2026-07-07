@@ -199,17 +199,19 @@ export default function Home() {
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                 Free AI Resume Builder — No Sign Up, No Paywall
               </h1>
-              <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. Choose from nine expert-designed templates, fill in your details, and download a clean PDF — completely free.
-              </p>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                No account creation. No email required. No credit card. No watermark on your download. Resume Helper AI is the free AI resume builder that actually means free.
+              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                AI writes your summary, suggests your skills, and formats everything so it passes ATS screening. You just fill in the blanks.
               </p>
               <Link href="/resume-builder">
                 <button className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-all hover:shadow-lg hover:-translate-y-0.5">
-                  Build Your Resume Free
+                  Start Building — Takes 5 Minutes
                 </button>
               </Link>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-sm text-gray-500">
+                <span>✓ No sign up</span>
+                <span>✓ No credit card</span>
+                <span>✓ No watermark</span>
+              </div>
             </div>
             <div className="fade-in-scroll md:flex justify-center hidden">
               <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-sm transform hover:shadow-3xl hover:-translate-y-2 hover:rotate-1 transition-all duration-500">
