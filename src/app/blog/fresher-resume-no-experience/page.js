@@ -26,6 +26,14 @@ function FresherIllustration() {
   );
 }
 
+const faqs = [
+  { q: "How long should a fresher resume be?", a: "One page. With no extensive work history to fill space, a fresher resume that runs longer than one page usually means the content is unfocused rather than genuinely comprehensive. Prioritize your strongest projects and most relevant coursework." },
+  { q: "Should I include a photo on a fresher resume?", a: "Only if applying in a region where it is customary, such as parts of the Middle East or continental Europe. For US, UK, and most tech roles globally, omit it, since it is not expected and can occasionally introduce unconscious bias in screening." },
+  { q: "What if I have no projects at all?", a: "Coursework assignments, hackathon entries, and even significant class presentations can be framed as projects if you describe the problem, your approach, and the outcome. The key is demonstrating applied thinking, not the source of the project." },
+  { q: "Should I list my GPA?", a: "Include it if it is 7.5/10, 3.5/4.0, or higher, or if the employer specifically requests it. Below that threshold, coursework and projects carry more weight, and a low GPA line can draw attention away from stronger parts of your resume." },
+  { q: "Can I apply for roles outside my degree field?", a: "Yes, especially early in your career. Emphasize transferable skills and any relevant self-directed learning, such as online courses or personal projects, that demonstrate genuine interest and applied capability in the new direction." },
+];
+
 export default function FresherResumeGuide() {
   return (
     <main className="min-h-screen bg-white">
@@ -44,7 +52,7 @@ export default function FresherResumeGuide() {
           Fresher Resume: How to Write One With No Experience
         </h1>
         <p className="text-lg text-gray-600 mb-10">
-          Every recruiter knows fresh graduates do not have years of work history. What they are actually screening for is potential, evidenced through projects, coursework, and a clear objective. Here is how to structure that.
+          Every recruiter knows fresh graduates do not have years of work history. What they are actually screening for is potential, evidenced through projects, coursework, and a clear objective. Here is how to structure that, with a real before-and-after example.
         </p>
 
         <div className="mb-10">
@@ -53,16 +61,46 @@ export default function FresherResumeGuide() {
 
         <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Lead With a Career Objective, Not a Summary</h2>
-          <p>A professional summary assumes work history to summarize. A career objective instead states what role you are targeting and what you bring to it. Keep it to two sentences: your degree and focus area, followed by the specific type of role you are seeking.</p>
+          <p>A professional summary assumes work history to summarize. A career objective instead states what role you are targeting and what you bring to it. Keep it to two sentences: your degree and focus area, followed by the specific type of role you are seeking, mentioning one or two standout skills.</p>
 
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Projects Are Your Experience Section</h2>
-          <p>Academic and personal projects do the job that work history normally does. For each project, include what you built, the tools or technologies used, and one measurable outcome or technical challenge you solved. Two to three strong projects outperform a long list of shallow ones.</p>
+          <p>Academic and personal projects do the job that work history normally does for experienced candidates. For each project, include what you built, the tools or technologies used, and one measurable outcome or technical challenge you solved. Two to three strong projects, described in detail, consistently outperform a long list of shallow ones.</p>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Before and After: A Real Example</h2>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-5 my-4">
+            <p className="text-sm font-semibold text-red-700 mb-2">Before (vague, no technical detail, no outcome)</p>
+            <p className="text-gray-700">"Made a project for college where students could see their marks and attendance online."</p>
+          </div>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-5 my-4">
+            <p className="text-sm font-semibold text-green-700 mb-2">After (specific, technical, outcome-driven)</p>
+            <p className="text-gray-700">"Built a Student Management System using React, Node.js, and MongoDB that allowed 200+ students to track grades and attendance in real time, reducing manual record requests to the administration office by an estimated 60%."</p>
+          </div>
+          <p>The rewritten version names the exact stack, which an ATS scans for directly, states the scale of usage, and estimates a measurable impact, all of which make the project feel real and consequential rather than a generic classroom exercise.</p>
 
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Education Moves Up, Not Down</h2>
-          <p>Unlike experienced professionals who place education near the bottom, freshers should list it directly under the objective, including your CGPA if it is strong, relevant coursework, and any academic honors.</p>
+          <p>Unlike experienced professionals who place education near the bottom, freshers should list it directly under the objective, including your CGPA if it is strong, relevant coursework, and any academic honors or scholarships.</p>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Common Mistakes on Fresher Resumes</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Listing every course you took.</strong> Only include coursework directly relevant to your target role; a long list dilutes your strongest points.</li>
+            <li><strong>Using a career objective that could apply to anyone.</strong> "Seeking a challenging role in a growing company" says nothing about your skills or the role you want.</li>
+            <li><strong>Omitting the tech stack or tools used in projects.</strong> Recruiters and ATS systems both scan specifically for named technologies, not general descriptions.</li>
+            <li><strong>Padding with irrelevant extracurriculars.</strong> Leadership roles and clubs can help, but only when tied to a skill or trait relevant to the job you are applying for.</li>
+            <li><strong>Formatting inconsistently across sections.</strong> Freshers often copy formatting from multiple templates, leading to mismatched fonts, spacing, or date styles that look unpolished.</li>
+          </ul>
 
           <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Skills Should Match the Job Posting</h2>
-          <p>Since ATS software filters on keywords, mirror the specific technologies or skills listed in the job description, provided you can genuinely speak to them in an interview. Internships, coursework, and personal projects are all valid places to have practiced these skills.</p>
+          <p>Since ATS software filters on keywords, mirror the specific technologies or skills listed in the job description, provided you can genuinely speak to them in an interview. Internships, coursework, and personal projects are all valid places to have practiced these skills, and it is completely acceptable to list them even without formal work experience behind them.</p>
+
+          <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Frequently Asked Questions</h2>
+          <div className="space-y-5 mt-6">
+            {faqs.map((faq, idx) => (
+              <div key={idx} className="border-b border-gray-100 pb-5">
+                <p className="font-semibold text-gray-900 mb-2">{faq.q}</p>
+                <p className="text-gray-600">{faq.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="bg-blue-700 rounded-xl p-8 mt-12 text-center">
@@ -100,6 +138,20 @@ export default function FresherResumeGuide() {
             description: "A practical guide for students and recent graduates on building a strong first resume.",
             author: { "@type": "Organization", name: "Resume Helper AI" },
             publisher: { "@type": "Organization", name: "Resume Helper AI" },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
           }),
         }}
       />
