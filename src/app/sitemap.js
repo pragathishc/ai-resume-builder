@@ -25,6 +25,36 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      url: "https://www.resumehelperai.com/blog/ats-resume-format-2026",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.resumehelperai.com/blog/nursing-resume-guide",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.resumehelperai.com/blog/fresher-resume-no-experience",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.resumehelperai.com/blog/uae-cv-format-guide",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.resumehelperai.com/blog/trades-resume-guide",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.resumehelperai.com/about",
       lastModified: new Date(),
       changeFrequency: "monthly",
