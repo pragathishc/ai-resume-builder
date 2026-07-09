@@ -121,7 +121,7 @@ export default function RootLayout({ children }) {
         {/* Footer */}
         <footer className="bg-gray-900 text-gray-300 mt-16">
           <div className="max-w-6xl mx-auto px-6 py-12">
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-4 gap-8">
               <div>
                 <h3 className="text-white font-bold text-lg mb-3">Resume Helper AI</h3>
                 <p className="text-sm text-gray-400 leading-relaxed">
@@ -136,6 +136,18 @@ export default function RootLayout({ children }) {
                   <li><a href="/resume-builder" className="hover:text-white transition">Resume Builder</a></li>
                   <li><a href="/about" className="hover:text-white transition">About Us</a></li>
                   <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="text-white font-semibold mb-3">Resume Guides</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="/blog/ats-resume-format-2026" className="hover:text-white transition">ATS Resume Format</a></li>
+                  <li><a href="/blog/nursing-resume-guide" className="hover:text-white transition">Nursing Resume Guide</a></li>
+                  <li><a href="/blog/fresher-resume-no-experience" className="hover:text-white transition">Fresher Resume Guide</a></li>
+                  <li><a href="/blog/uae-cv-format-guide" className="hover:text-white transition">UAE CV Format Guide</a></li>
+                  <li><a href="/blog/trades-resume-guide" className="hover:text-white transition">Trades Resume Guide</a></li>
+                  <li><a href="/blog/how-to-make-a-resume-with-ai" className="hover:text-white transition">How to Make a Resume with AI</a></li>
+                  <li><a href="/blog/free-resume-builder-vs-paid" className="hover:text-white transition">Free vs Paid Builders</a></li>
                 </ul>
               </div>
               <div>
