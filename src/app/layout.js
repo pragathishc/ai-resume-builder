@@ -19,7 +19,7 @@ export const metadata = {
     template: "%s | Resume Helper AI",
   },
   description:
-    "Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. 6 templates including UAE CV. Free, no sign up, no watermark.",
+    "Build a professional, ATS-friendly resume in minutes with AI-powered summaries and smart skill suggestions. 9 templates including UAE CV. Free, no sign up, no watermark.",
 
   // Canonical
   metadataBase: new URL("https://www.resumehelperai.com"),
@@ -54,7 +54,7 @@ export const metadata = {
     siteName: "Resume Helper AI",
     title: "Free AI Resume Builder — No Sign Up, No Paywall",
     description:
-      "Build a professional, ATS-friendly resume in minutes with AI-powered summaries. 6 templates, free PDF download, no watermark, no sign up required.",
+      "Build a professional, ATS-friendly resume in minutes with AI-powered summaries. 9 templates, free PDF download, no watermark, no sign up required.",
     images: [
       {
         url: "https://www.resumehelperai.com/og-image.png",
@@ -70,7 +70,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Free AI Resume Builder — No Sign Up, No Paywall",
     description:
-      "Build a professional ATS-friendly resume in minutes. AI summaries, 6 templates, free PDF. No sign up required.",
+      "Build a professional ATS-friendly resume in minutes. AI summaries, 9 templates, free PDF. No sign up required.",
     images: ["https://www.resumehelperai.com/og-image.png"],
     creator: "@resumehelperai",
   },
@@ -134,20 +134,25 @@ export default function RootLayout({ children }) {
                 <ul className="space-y-2 text-sm">
                   <li><a href="/" className="hover:text-white transition">Home</a></li>
                   <li><a href="/resume-builder" className="hover:text-white transition">Resume Builder</a></li>
+                  <li><a href="/blog" className="hover:text-white transition">Resume Guides</a></li>
                   <li><a href="/about" className="hover:text-white transition">About Us</a></li>
                   <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-white font-semibold mb-3">Resume Guides</h4>
+                <h4 className="text-white font-semibold mb-3">Popular Guides</h4>
                 <ul className="space-y-2 text-sm">
                   <li><a href="/blog/ats-resume-format-2026" className="hover:text-white transition">ATS Resume Format</a></li>
-                  <li><a href="/blog/nursing-resume-guide" className="hover:text-white transition">Nursing Resume Guide</a></li>
-                  <li><a href="/blog/fresher-resume-no-experience" className="hover:text-white transition">Fresher Resume Guide</a></li>
-                  <li><a href="/blog/uae-cv-format-guide" className="hover:text-white transition">UAE CV Format Guide</a></li>
-                  <li><a href="/blog/trades-resume-guide" className="hover:text-white transition">Trades Resume Guide</a></li>
-                  <li><a href="/blog/how-to-make-a-resume-with-ai" className="hover:text-white transition">How to Make a Resume with AI</a></li>
-                  <li><a href="/blog/free-resume-builder-vs-paid" className="hover:text-white transition">Free vs Paid Builders</a></li>
+                  <li><a href="/blog/resume-summary-examples" className="hover:text-white transition">Writing a Summary</a></li>
+                  <li><a href="/blog/resume-mistakes-to-avoid" className="hover:text-white transition">12 Resume Mistakes</a></li>
+                  <li><a href="/blog/uae-cv-format-guide" className="hover:text-white transition">UAE CV Format</a></li>
+                  <li><a href="/blog/nursing-resume-guide" className="hover:text-white transition">Nursing Resume</a></li>
+                  <li><a href="/blog/cover-letter-guide" className="hover:text-white transition">Cover Letters</a></li>
+                  <li>
+                    <a href="/blog" className="text-indigo-400 hover:text-indigo-300 transition font-medium">
+                      View all 20 guides →
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div>
