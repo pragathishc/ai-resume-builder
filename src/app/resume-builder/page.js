@@ -2,7 +2,6 @@
 
 import { useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useReactToPrint } from "react-to-print";
 
 import ATSPreview from "../components/ATSPreview";
 import ModernPreview from "../components/ModernPreview";
@@ -19,6 +18,37 @@ const trackEvent = (eventName, params = {}) => {
   if (typeof window !== "undefined" && window.gtag) {
     window.gtag("event", eventName, params);
   }
+};
+
+// Direct PDF generation - no print dialog, downloads file immediately
+const generatePDF = async (element, filename) => {
+  if (!element) return;
+  const html2canvas = (await import("html2canvas")).default;
+  const { jsPDF } = await import("jspdf");
+
+  const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+  const imgData = canvas.toDataURL("image/jpeg", 0.98);
+
+  const pdf = new jsPDF({ unit: "in", format: "letter", orientation: "portrait" });
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const imgWidth = pageWidth;
+  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  let heightLeft = imgHeight;
+  let position = 0;
+
+  pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+  heightLeft -= pageHeight;
+
+  while (heightLeft > 0) {
+    position = heightLeft - imgHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+  }
+
+  pdf.save(`${filename || "resume"}.pdf`);
 };
 
 function Spinner() {
@@ -146,6 +176,7 @@ function ResumeBuilderContent() {
   const [themeColor, setThemeColor] = useState("#1e3a5f");
   const [uaeThemeColor, setUaeThemeColor] = useState("#b8860b");
   const [nursingThemeColor, setNursingThemeColor] = useState("#0d7377");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   // Personal Info
   const [name, setName] = useState("");
@@ -335,19 +366,24 @@ function ResumeBuilderContent() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePrint = useReactToPrint({ contentRef: resumeRef, documentTitle: `${name || "resume"}` });
-  const handlePrintFullScreen = useReactToPrint({
-    contentRef: fullScreenPreviewRef,
-    documentTitle: `${name || "resume"}`,
-    onBeforePrint: async () => {
-      trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate + " (Preview)" });
-    },
-  });
+  const handleDownloadClick = async () => {
+    if (!validate()) return;
+    trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate });
+    setIsDownloading(true);
+    try {
+      await generatePDF(resumeRef.current, name || "resume");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
-  const handleDownloadClick = () => {
-    if (validate()) {
-      trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate });
-      handlePrint();
+  const handlePrintFullScreen = async () => {
+    trackEvent("resume_download", { event_category: "Resume", event_label: selectedTemplate + " (Preview)" });
+    setIsDownloading(true);
+    try {
+      await generatePDF(fullScreenPreviewRef.current, name || "resume");
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -660,9 +696,9 @@ function ResumeBuilderContent() {
             <AddButton onClick={addExperience} label={isNursing ? "Add Another Clinical Role" : "Add Another Experience"} />
 
             <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-6 border-t border-gray-100">
-              <button onClick={handleDownloadClick}
-                className="min-h-[48px] bg-green-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
-                📄 Download PDF
+              <button onClick={handleDownloadClick} disabled={isDownloading}
+                className="min-h-[48px] bg-green-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2 disabled:opacity-60">
+                {isDownloading ? <><Spinner />Preparing PDF...</> : "📄 Download PDF"}
               </button>
               <button onClick={() => { setShowFullScreenPreview(true); trackEvent("resume_preview_opened", { event_category: "Resume", event_label: selectedTemplate }); }}
                 className="min-h-[48px] bg-indigo-600 text-white px-6 py-3 rounded-xl flex-1 text-base font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2">
@@ -751,8 +787,10 @@ function ResumeBuilderContent() {
             <div className="flex flex-col sm:flex-row justify-end gap-3 px-5 py-4 border-t border-gray-100">
               <button onClick={() => setShowFullScreenPreview(false)}
                 className="min-h-[44px] bg-gray-100 text-gray-700 px-6 py-2 rounded-xl hover:bg-gray-200 order-2 sm:order-1 text-sm font-medium transition">Close</button>
-              <button onClick={handlePrintFullScreen}
-                className="min-h-[44px] bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 order-1 sm:order-2 text-sm font-medium transition">📄 Download PDF</button>
+              <button onClick={handlePrintFullScreen} disabled={isDownloading}
+                className="min-h-[44px] bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 order-1 sm:order-2 text-sm font-medium transition disabled:opacity-60">
+                {isDownloading ? "Preparing..." : "📄 Download PDF"}
+              </button>
             </div>
           </div>
         </div>
