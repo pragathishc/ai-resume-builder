@@ -1,15 +1,18 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -107,14 +110,6 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8095568223295307"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <GoogleAnalytics gaId="G-GZQE8ME4CL" />
       <body className="min-h-full flex flex-col">
         <div className="flex-1">{children}</div>
 
@@ -168,6 +163,16 @@ export default function RootLayout({ children }) {
             </div>
           </div>
         </footer>
+
+        <GoogleAnalytics gaId="G-GZQE8ME4CL" />
+
+        {/* AdSense — loaded last, after page is interactive, to avoid blocking render and causing layout shift */}
+        <Script
+          id="adsbygoogle-init"
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8095568223295307"
+        />
       </body>
     </html>
   );
