@@ -1,6 +1,7 @@
 export const metadata = {
   title: "About Us | Resume Helper AI",
   description: "Learn about Resume Helper AI — a free AI-powered resume builder helping job seekers worldwide create professional resumes.",
+  alternates: { canonical: "https://www.resumehelperai.com/about" },
 };
 
 export default function About() {
