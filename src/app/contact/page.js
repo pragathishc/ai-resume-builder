@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Contact Us | Resume Helper AI",
   description: "Get in touch with the Resume Helper AI team.",
+  alternates: { canonical: "https://www.resumehelperai.com/contact" },
 };
 
 export default function Contact() {
