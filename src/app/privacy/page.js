@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Privacy Policy | Resume Helper AI",
   description: "How Resume Helper AI collects, uses, and protects your information.",
+  alternates: { canonical: "https://www.resumehelperai.com/privacy" },
 };
 
 export default function PrivacyPolicy() {
